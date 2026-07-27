@@ -1,0 +1,129 @@
+name: Bootstrap NEXUS CODE v5
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: nexus-v5-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout bootstrap repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and verify v5 patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .bootstrap/release-* > /tmp/v5.patch.b85
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+          import hashlib
+
+          encoded = Path("/tmp/v5.patch.b85").read_bytes()
+          payload = base64.b85decode(encoded)
+          expected = "ea51e78f96adfd805776fa8ecbd6a5fca571649332cdd8caa904636408fed32f"
+          actual = hashlib.sha256(payload).hexdigest()
+          if actual != expected:
+              raise SystemExit(f"Patch checksum mismatch: expected {expected}, received {actual}")
+          Path("/tmp/v5.patch.xz").write_bytes(payload)
+          print(f"Verified compressed patch: {actual}")
+          PY
+          xz -dc /tmp/v5.patch.xz > /tmp/v5.patch
+
+      - name: Reconstruct exact NEXUS CODE v5 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/markofornoliak/nexus-code-v4.git /tmp/nexus-v4
+          cd /tmp/nexus-v4
+          git apply --check /tmp/v5.patch
+          git apply /tmp/v5.patch
+          rm -rf .git
+
+          cd "$GITHUB_WORKSPACE"
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/nexus-v4/. .
+
+          test "$(find . -type f ! -path './.git/*' | wc -l)" -eq 176
+          test "$(node -p "require('./package.json').version")" = "5.0.0"
+
+      - name: Commit complete v5 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release NEXUS CODE v5"
+          git push origin HEAD:main
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Test
+        run: npm run test
+
+      - name: Validate curriculum registry
+        run: npm run validate:content
+
+      - name: Build for GitHub Pages
+        env:
+          VITE_BASE_PATH: /nexus-code-v5/
+        run: npm run build
+
+      - name: End-to-end smoke checks
+        run: npm run test:e2e
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
