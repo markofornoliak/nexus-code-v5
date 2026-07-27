@@ -1,0 +1,29 @@
+name: Diagnose NEXUS v5 payload
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main payload
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: List bootstrap files and hashes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          for path in sorted(Path('.nexus-bootstrap').glob('*')):
+              if path.is_file():
+                  data = path.read_bytes()
+                  print(f'{path} size={len(data)} sha256={hashlib.sha256(data).hexdigest()}')
+          PY
