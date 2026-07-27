@@ -1,0 +1,35 @@
+name: Diagnose NEXUS v5 duplicate IDs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find generated duplicate IDs
+        shell: bash
+        run: |
+          git clone --depth 1 --branch main https://github.com/markofornoliak/nexus-code-v5.git app >/dev/null 2>&1
+          cd app
+          npm ci --silent >/dev/null 2>&1
+          cat > .duplicate-ids.ts <<'TS'
+          import { getOrderedLessons, tracks } from "./src/content/registry";
+
+          const rows = tracks.flatMap((track) =>
+            getOrderedLessons(track).flatMap((lesson) => [
+              ...lesson.tasks.map((task) => ({ id: task.id, track: track.id, lesson: lesson.id, kind: "required" })),
+              { id: lesson.bonusTask.id, track: track.id, lesson: lesson.id, kind: "bonus" },
+            ]),
+          );
+          const groups = new Map<string, typeof rows>();
+          for (const row of rows) groups.set(row.id, [...(groups.get(row.id) ?? []), row]);
+          for (const [id, matches] of groups) {
+            if (matches.length > 1) console.log(`${id}|${matches.map((m) => `${m.track}/${m.lesson}/${m.kind}`).join(",")}`);
+          }
+          TS
+          npx vite-node .duplicate-ids.ts
