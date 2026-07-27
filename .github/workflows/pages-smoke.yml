@@ -1,0 +1,49 @@
+name: NEXUS Pages live smoke
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-live-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify published application and assets
+        shell: bash
+        env:
+          SITE_URL: https://markofornoliak.github.io/nexus-code-v5/
+        run: |
+          set -euo pipefail
+
+          html="$(mktemp)"
+          curl \
+            --fail \
+            --location \
+            --retry 20 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            --connect-timeout 15 \
+            --max-time 30 \
+            --output "$html" \
+            "$SITE_URL"
+
+          grep -Fq "NEXUS CODE v5" "$html"
+          grep -Fq "/nexus-code-v5/assets/" "$html"
+
+          script_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
+          style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
+
+          test -n "$script_path"
+          test -n "$style_path"
+
+          curl --fail --location --retry 3 --output /dev/null "https://markofornoliak.github.io${script_path}"
+          curl --fail --location --retry 3 --output /dev/null "https://markofornoliak.github.io${style_path}"
+
+          echo "Live Pages smoke passed for ${SITE_URL}"
