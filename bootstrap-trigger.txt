@@ -1,2 +1,2 @@
 Trigger the verified NEXUS CODE v5 bootstrap workflow through a pull request event.
-Quality diagnostics pass 12 — verify formatted release.
+Quality diagnostics pass 13 — identify generated duplicate IDs.
