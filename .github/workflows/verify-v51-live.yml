@@ -1,0 +1,50 @@
+name: Verify live NEXUS v5.1
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-v51-live-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-live:
+    if: github.head_ref == 'verify-v51-live'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify published v5.1 shell and assets
+        shell: bash
+        env:
+          SITE_URL: https://markofornoliak.github.io/nexus-code-v5/
+          SITE_ORIGIN: https://markofornoliak.github.io
+        run: |
+          set -euo pipefail
+          html="$(mktemp)"
+          script="$(mktemp)"
+
+          for attempt in $(seq 1 36); do
+            if curl --fail --silent --show-error --location --output "$html" "$SITE_URL"; then
+              script_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
+              style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
+              if [ -n "$script_path" ] && [ -n "$style_path" ]; then
+                curl --fail --silent --show-error --location --output "$script" "${SITE_ORIGIN}${script_path}"
+                if grep -Fq "Open curriculum map" "$script" && grep -Fq "Production Automation" "$script"; then
+                  curl --fail --silent --show-error --location --output /dev/null "${SITE_ORIGIN}${style_path}"
+                  echo "Live NEXUS CODE v5.1 verification passed."
+                  echo "JavaScript asset: ${script_path}"
+                  echo "CSS asset: ${style_path}"
+                  exit 0
+                fi
+              fi
+            fi
+            echo "Waiting for v5.1 deployment (${attempt}/36)..."
+            sleep 10
+          done
+
+          echo "The public site did not expose the v5.1 bundle within the verification window."
+          exit 1
