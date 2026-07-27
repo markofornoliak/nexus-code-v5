@@ -44,7 +44,7 @@ const requiredPatterns = [
   ["bonus tasks", /bonusTask|bonus:/],
   ["Python v5 worlds", /python-typecraft-observatory[\s\S]*python-local-app-forge/],
   ["JavaScript v5 world", /browser-application-forge/],
-  ["HTML\/CSS v5 world", /adaptive-interface-studio/],
+  ["HTML/CSS v5 world", /adaptive-interface-studio/],
   ["Java v5 world", /java-architecture-vault/],
   ["C++ v5 world", /ownership-forge/],
 ];
