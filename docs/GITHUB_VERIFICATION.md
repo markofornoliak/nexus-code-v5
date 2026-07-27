@@ -12,3 +12,5 @@ The release source tree was reconstructed from the NEXUS CODE v4 baseline throug
 - the canonical source-tree digest matched the locally verified v5 tree.
 
 The permanent GitHub Actions quality gate performs a clean npm installation, production dependency audit, TypeScript validation, ESLint validation, Prettier verification, Vitest execution, repository-subpath production build, and static end-to-end smoke checks.
+
+A release is considered verified only when the GitHub Actions quality-gate pull request passes and the GitHub Pages deployment succeeds from the resulting `main` commit.
