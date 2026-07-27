@@ -1,0 +1,55 @@
+name: Apply NEXUS v5.1 release
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v51-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apply-release:
+    if: github.head_ref == 'design-content-v51'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v6
+        with:
+          ref: design-content-v51
+          fetch-depth: 0
+
+      - name: Reconstruct and verify release patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .v51-payload/part-* > /tmp/nexus-v51.patch.xz.b64
+          echo "db42e7e19e12d155b2a12ccb67b30266d789b54d1e5ec7ac05738d227bf2ed33  /tmp/nexus-v51.patch.xz.b64" | sha256sum -c -
+          base64 --decode /tmp/nexus-v51.patch.xz.b64 > /tmp/nexus-v51.patch.xz
+          echo "93d171ab35385c3e653a9d4339815a759e78b217a760b3dbdf5146b4e1dea896  /tmp/nexus-v51.patch.xz" | sha256sum -c -
+          xz -dc /tmp/nexus-v51.patch.xz > /tmp/nexus-v51.patch
+          patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51.patch
+
+      - name: Install, format, and validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run format
+          npm run validate:content
+
+      - name: Commit NEXUS CODE v5.1 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .v51-payload
+          rm -f .github/workflows/apply-v51-release.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release NEXUS CODE v5.1 design and curriculum"
+          git push origin HEAD:design-content-v51
