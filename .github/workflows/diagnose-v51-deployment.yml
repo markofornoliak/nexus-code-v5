@@ -1,0 +1,38 @@
+name: Diagnose NEXUS v5.1 deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: diagnose-v51-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'verify-v51-live'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Inspect main Pages deployment runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run list \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow deploy.yml \
+            --branch main \
+            --limit 5 \
+            --json databaseId,status,conclusion,headSha,event,createdAt,updatedAt,url
+
+          latest="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow deploy.yml --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
+          test -n "$latest"
+          echo "Latest deployment run: $latest"
+          gh run view "$latest" --repo "$GITHUB_REPOSITORY" --json status,conclusion,headSha,event,jobs,url
+          gh run view "$latest" --repo "$GITHUB_REPOSITORY" --log-failed || true
