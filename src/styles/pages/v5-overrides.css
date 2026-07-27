@@ -1,0 +1,60 @@
+@layer v5-overrides {
+  .site-header {
+    backdrop-filter: blur(18px) saturate(1.1);
+  }
+
+  .profile-metrics {
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+
+  .lesson-layout {
+    align-items: start;
+  }
+
+  .workspace-column {
+    min-width: 0;
+  }
+
+  .code-editor {
+    contain: content;
+  }
+
+  @media (max-width: 720px) {
+    .lesson-topbar,
+    .lesson-header,
+    .lesson-layout,
+    .lesson-navigation {
+      width: min(100% - 1rem, 100%);
+    }
+  }
+}
+
+@layer v5-overrides {
+  .recommendation-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nx-space-lg);
+    margin-block: var(--nx-space-xl);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    border-radius: var(--nx-radius-panel);
+    background: color-mix(in srgb, var(--surface, #ffffff) 88%, var(--accent, #42a577));
+  }
+
+  .recommendation-panel h2 {
+    margin: 0.25rem 0;
+  }
+
+  .recommendation-panel p {
+    max-width: 56rem;
+    margin: 0;
+  }
+
+  @media (max-width: 760px) {
+    .recommendation-panel {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+}

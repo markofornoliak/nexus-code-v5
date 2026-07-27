@@ -1,0 +1,18 @@
+{
+  "name": "NEXUS CODE v5 — Living Code Observatory",
+  "short_name": "NEXUS CODE v5",
+  "description": "A local-first spatial programming observatory with guided lessons, browser runtimes, project milestones, and a searchable curriculum Atlas.",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2efe4",
+  "theme_color": "#10281f",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+@layer pages {
+  .onboarding-page,
+  .projects-page {
+    width: var(--nx-layout-wide);
+  }
+
+  .compact-hero {
+    padding-block: clamp(2rem, 6vw, 5rem);
+  }
+
+  .onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--nx-space-lg);
+  }
+
+  .onboarding-panel,
+  .project-card,
+  .project-card .milestone-stack > section,
+  .project-metric-grid article,
+  .project-progress-panel {
+    border: 1px solid var(--nx-border-subtle);
+    border-radius: var(--nx-radius-panel);
+    background: color-mix(in srgb, var(--nx-surface-raised, Canvas) 92%, transparent);
+    box-shadow: 0 1rem 3rem color-mix(in srgb, black 10%, transparent);
+  }
+
+  .onboarding-panel {
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .onboarding-panel h2,
+  .project-card h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--nx-space-xs);
+  }
+
+  .choice-grid {
+    display: grid;
+    gap: var(--nx-space-sm);
+  }
+
+  .choice-grid.two-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .choice-grid button,
+  .onboarding-panel select,
+  .onboarding-panel input[type="range"] {
+    width: 100%;
+  }
+
+  .choice-grid button {
+    min-height: 5rem;
+    padding: var(--nx-space-md);
+    text-align: start;
+    border: 1px solid var(--nx-border-subtle);
+    border-radius: var(--nx-radius-card);
+    background: color-mix(in srgb, currentColor 4%, transparent);
+    color: inherit;
+  }
+
+  .choice-grid button span {
+    display: block;
+    margin-top: var(--nx-space-2xs);
+    color: var(--nx-text-muted, inherit);
+  }
+
+  .choice-grid button.is-selected {
+    border-color: var(--accent, #42a577);
+    box-shadow: inset 0 0 0 1px var(--accent, #42a577);
+  }
+
+  .onboarding-panel label {
+    display: grid;
+    gap: var(--nx-space-xs);
+    margin-block: var(--nx-space-sm);
+  }
+
+  .switch-row {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .onboarding-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nx-space-sm);
+    margin-block: var(--nx-space-xl);
+  }
+
+  @media (max-width: 760px) {
+    .onboarding-grid,
+    .choice-grid.two-column {
+      grid-template-columns: 1fr;
+    }
+  }
+}

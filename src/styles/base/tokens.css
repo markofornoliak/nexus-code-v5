@@ -1,0 +1,42 @@
+@layer tokens {
+  :root {
+    --nx-font-display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --nx-font-mono: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    --nx-space-2xs: 0.25rem;
+    --nx-space-xs: 0.5rem;
+    --nx-space-sm: 0.75rem;
+    --nx-space-md: 1rem;
+    --nx-space-lg: 1.5rem;
+    --nx-space-xl: 2rem;
+    --nx-space-2xl: 3rem;
+    --nx-radius-sharp: 0.2rem;
+    --nx-radius-card: 1.15rem;
+    --nx-radius-panel: 1.75rem;
+    --nx-border-subtle: color-mix(in srgb, currentColor 14%, transparent);
+    --nx-focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent, #42a577) 45%, transparent);
+    --nx-motion-fast: 140ms;
+    --nx-motion-base: 220ms;
+    --nx-motion-slow: 420ms;
+    --nx-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --nx-layout-readable: min(100% - 2rem, 74rem);
+    --nx-layout-wide: min(100% - 2rem, 96rem);
+    --nx-state-success: #2f8f5b;
+    --nx-state-warning: #b8791a;
+    --nx-state-danger: #bf3f3f;
+    --nx-state-info: #2b75aa;
+  }
+
+  [data-theme="field-codex"] {
+    --nx-surface-raised: #fffdf5;
+    --nx-surface-muted: #ebe4d3;
+    --nx-text-strong: #17231f;
+    --nx-text-muted: #59685f;
+  }
+
+  [data-theme="night-observatory"] {
+    --nx-surface-raised: #0d1c18;
+    --nx-surface-muted: #132822;
+    --nx-text-strong: #eef7ea;
+    --nx-text-muted: #a8bbb0;
+  }
+}

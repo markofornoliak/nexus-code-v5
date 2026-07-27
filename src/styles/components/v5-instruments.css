@@ -1,0 +1,26 @@
+@layer components {
+  .project-metric-grid,
+  .profile-metrics {
+    container-type: inline-size;
+  }
+
+  .button-row .button-ghost {
+    border: 1px solid var(--nx-border-subtle);
+    background: transparent;
+  }
+
+  .project-progress,
+  .field-progress-readout > div {
+    overflow: hidden;
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    border-radius: 999px;
+  }
+
+  .project-progress span,
+  .field-progress-readout > div span {
+    display: block;
+    height: 100%;
+    min-height: 0.55rem;
+    background: linear-gradient(90deg, var(--accent, #42a577), color-mix(in srgb, var(--accent, #42a577) 55%, white));
+  }
+}

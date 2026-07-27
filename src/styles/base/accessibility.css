@@ -1,0 +1,27 @@
+@layer accessibility {
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    box-shadow: var(--nx-focus-ring);
+  }
+
+  .force-reduced-motion *,
+  .force-reduced-motion *::before,
+  .force-reduced-motion *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
