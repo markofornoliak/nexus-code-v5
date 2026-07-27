@@ -1,6 +1,8 @@
 name: Bootstrap NEXUS CODE v5
 
 on:
+  issues:
+    types: [opened]
   push:
     branches: ["main"]
     paths:
@@ -17,6 +19,7 @@ concurrency:
 
 jobs:
   publish:
+    if: github.event_name != 'issues' || github.event.issue.title == 'bootstrap-nexus-code-v5'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout bootstrap repository
