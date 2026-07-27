@@ -15,7 +15,7 @@ jobs:
   verify-live:
     if: github.head_ref == 'verify-v51-live'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 5
     steps:
       - name: Verify published v5.1 shell and assets
         shell: bash
@@ -26,25 +26,27 @@ jobs:
           set -euo pipefail
           html="$(mktemp)"
           script="$(mktemp)"
+          style="$(mktemp)"
 
-          for attempt in $(seq 1 36); do
-            if curl --fail --silent --show-error --location --output "$html" "$SITE_URL"; then
-              script_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
-              style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
-              if [ -n "$script_path" ] && [ -n "$style_path" ]; then
-                curl --fail --silent --show-error --location --output "$script" "${SITE_ORIGIN}${script_path}"
-                if grep -Fq "Open curriculum map" "$script" && grep -Fq "Production Automation" "$script"; then
-                  curl --fail --silent --show-error --location --output /dev/null "${SITE_ORIGIN}${style_path}"
-                  echo "Live NEXUS CODE v5.1 verification passed."
-                  echo "JavaScript asset: ${script_path}"
-                  echo "CSS asset: ${style_path}"
-                  exit 0
-                fi
-              fi
-            fi
-            echo "Waiting for v5.1 deployment (${attempt}/36)..."
-            sleep 10
-          done
+          curl --fail --silent --show-error --location --output "$html" "$SITE_URL"
+          script_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
+          style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
 
-          echo "The public site did not expose the v5.1 bundle within the verification window."
-          exit 1
+          test -n "$script_path"
+          test -n "$style_path"
+
+          curl --fail --silent --show-error --location --output "$script" "${SITE_ORIGIN}${script_path}"
+          curl --fail --silent --show-error --location --output "$style" "${SITE_ORIGIN}${style_path}"
+
+          test "$(wc -c < "$script")" -gt 500000
+          test "$(wc -c < "$style")" -gt 100000
+          grep -Fq '5.1.0' "$script"
+          grep -Fq 'Build software that behaves like a system.' "$script"
+          grep -Fq '.v51-landing' "$style"
+          grep -Fq '.v51-track-page' "$style"
+
+          echo "Live NEXUS CODE v5.1 verification passed."
+          echo "JavaScript asset: ${script_path} ($(wc -c < "$script") bytes)"
+          echo "CSS asset: ${style_path} ($(wc -c < "$style") bytes)"
+          echo "JavaScript SHA-256: $(sha256sum "$script" | cut -d ' ' -f 1)"
+          echo "CSS SHA-256: $(sha256sum "$style" | cut -d ' ' -f 1)"
