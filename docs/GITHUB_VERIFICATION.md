@@ -21,7 +21,8 @@ Current state:
 - 80 Vitest tests: passed;
 - repository-subpath production build: passed;
 - Pages artifact construction and upload: passed;
-- public Pages deployment: waiting for the one-time **Settings → Pages → Source → GitHub Actions** activation.
+- GitHub Pages publishing source: activated on 2026-07-27;
+- production Pages deployment: initiated by the activation-record merge to `main`.
 
 Repository: `markofornoliak/nexus-code-v5`.
 
