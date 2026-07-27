@@ -1,0 +1,1 @@
+Publish the verified v5 source tree while preserving the installed bootstrap workflow.
