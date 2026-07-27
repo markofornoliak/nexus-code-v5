@@ -1,8 +1,8 @@
 export const PRODUCT = {
   name: "NEXUS",
   fullName: "NEXUS CODE",
-  version: "5.0.0",
-  tagline: "Recover the logic. Rebuild the signal.",
+  version: "5.1.0",
+  tagline: "Build software that behaves like a system.",
   metaphor: "The Living Code Observatory",
   description:
     "A precision learning observatory where runnable code, structural analysis, projects, and local progress reconstruct programming knowledge.",

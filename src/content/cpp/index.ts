@@ -2,6 +2,7 @@ import { appendCurriculumWorld, createCurriculumTrack } from "../_shared/defineL
 import { patternBonus, patternTask } from "../_shared/taskBuilders";
 import { cppV4World } from "../v4/cppWorld";
 import { cppV5World } from "./v5World";
+import { cppPerformanceWorld } from "./performanceWorld";
 
 const cppTask = (
   id: string,
@@ -392,6 +393,6 @@ const baseTrack = createCurriculumTrack({
 });
 
 export const track = appendCurriculumWorld(
-  appendCurriculumWorld(baseTrack, cppV4World),
-  cppV5World,
+  appendCurriculumWorld(appendCurriculumWorld(baseTrack, cppV4World), cppV5World),
+  cppPerformanceWorld,
 );

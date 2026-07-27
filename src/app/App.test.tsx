@@ -13,7 +13,7 @@ describe("application routes", () => {
       </MemoryRouter>,
     );
     expect(
-      await screen.findByRole("heading", { name: /Recover the logic/i }),
+      await screen.findByRole("heading", { name: /Learn to build software/i }),
     ).toBeInTheDocument();
   });
 

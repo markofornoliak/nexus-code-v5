@@ -19,14 +19,14 @@ describe("content registry", () => {
 
   it("assembles the expanded v5 catalog", () => {
     const python = getTrack("python");
-    expect(python?.worlds).toHaveLength(10);
-    expect(python && getOrderedLessons(python)).toHaveLength(52);
-    expect(python?.worlds.every((world) => world.lessons.length >= 5)).toBe(true);
+    expect(python?.worlds).toHaveLength(11);
+    expect(python && getOrderedLessons(python)).toHaveLength(55);
+    expect(python?.worlds.every((world) => world.lessons.length >= 3)).toBe(true);
     expect(
       tracks.reduce((total, track) => total + getOrderedLessons(track).length, 0),
-    ).toBe(126);
-    expect(tracks.reduce((total, track) => total + track.worlds.length, 0)).toBe(24);
-    expect(python?.worlds.at(-1)?.id).toBe("python-local-app-forge");
+    ).toBe(141);
+    expect(tracks.reduce((total, track) => total + track.worlds.length, 0)).toBe(29);
+    expect(python?.worlds.at(-1)?.id).toBe("python-production-automation");
     expect(tracks.every((track) => track.status === "available")).toBe(true);
   });
 
@@ -49,7 +49,6 @@ describe("content registry", () => {
     const duplicateTaskIds = [
       ...new Set(taskIds.filter((id, index) => taskIds.indexOf(id) !== index)),
     ];
-
     expect(new Set(lessonIds).size).toBe(lessonIds.length);
     expect(
       duplicateTaskIds,

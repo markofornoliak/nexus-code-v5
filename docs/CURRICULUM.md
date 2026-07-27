@@ -1,24 +1,24 @@
-# Curriculum — NEXUS CODE v5
+# Curriculum — NEXUS CODE v5.1
 
-v5 preserves all v4 tracks, worlds, lessons, task IDs, and bonus IDs, then adds a focused expansion layer.
+v5.1 preserves all released v4/v5 tracks, worlds, lessons, task IDs, and bonus IDs, then adds a production-systems expansion layer.
 
 ## Totals
 
 - Tracks: 5
-- Worlds: 24
-- Lessons: 126
-- Required tasks: 252
-- Bonus challenges: 126
-- Dedicated projects: 5
-- Project milestones: 15
+- Worlds: 29
+- Lessons: 141
+- Required tasks: 282
+- Bonus challenges: 141
+- Dedicated projects: 8
+- Project milestones: 24
 
 ## Track totals
 
-- Python Core: 10 worlds, 52 lessons
-- JavaScript: 4 worlds, 21 lessons
-- HTML/CSS: 4 worlds, 21 lessons
-- Java: 3 worlds, 16 lessons
-- C++: 3 worlds, 16 lessons
+- Python Core: 11 worlds, 55 lessons
+- JavaScript: 5 worlds, 24 lessons
+- HTML/CSS: 5 worlds, 24 lessons
+- Java: 4 worlds, 19 lessons
+- C++: 4 worlds, 19 lessons
 
 ## New Python worlds
 
@@ -55,3 +55,17 @@ Projects:
 5. C++ Ownership Graph Skeleton
 
 Each project has outcomes, architecture notes, starter files, milestones, and acceptance criteria. Completion state is persisted locally in schema version 6.
+
+## v5.1 production systems worlds
+
+- `python-production-automation`: configuration pipelines, structured observability, and command architecture.
+- `javascript-product-systems`: finite state machines, validation contracts, and asynchronous orchestration.
+- `html-css-interface-systems`: semantic hierarchy, adaptive dashboards, and humane motion.
+- `java-domain-architecture`: value objects, service boundaries, and composition roots.
+- `cpp-performance-systems`: cache-aware data, explicit error contracts, and profiling workflows.
+
+## v5.1 project dossiers
+
+6. Python Automation Control Center
+7. Offline Mission Board
+8. Learning Portfolio Observatory

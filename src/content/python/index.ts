@@ -7,6 +7,7 @@ import { world as signalAwakening } from "./worlds/signal-awakening/world";
 import { createPythonExpansionWorlds } from "./expansion";
 import { createPythonSystemsWorld } from "./systemsLab";
 import { pythonCapstoneWorld, pythonTypecraftWorld } from "./v5Worlds";
+import { pythonProductionWorld } from "./productionWorld";
 
 interface LessonModule {
   default: Lesson;
@@ -56,8 +57,11 @@ const baseTrack: Track = {
 
 export const track = appendCurriculumWorld(
   appendCurriculumWorld(
-    appendCurriculumWorld(baseTrack, pythonV4World),
-    pythonTypecraftWorld,
+    appendCurriculumWorld(
+      appendCurriculumWorld(baseTrack, pythonV4World),
+      pythonTypecraftWorld,
+    ),
+    pythonCapstoneWorld,
   ),
-  pythonCapstoneWorld,
+  pythonProductionWorld,
 );

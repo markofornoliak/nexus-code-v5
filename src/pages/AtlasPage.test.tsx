@@ -18,7 +18,7 @@ describe("learning atlas", () => {
   it("searches the complete cross-language catalog", async () => {
     const user = userEvent.setup();
     renderAtlas();
-    expect(screen.getByText("126 coordinates match")).toBeInTheDocument();
+    expect(screen.getByText("141 coordinates match")).toBeInTheDocument();
     await user.type(
       screen.getByRole("searchbox", { name: "Search lessons" }),
       "generator",

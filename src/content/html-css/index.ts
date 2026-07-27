@@ -2,6 +2,7 @@ import { appendCurriculumWorld, createCurriculumTrack } from "../_shared/defineL
 import { patternBonus, patternTask } from "../_shared/taskBuilders";
 import { htmlCssV4World } from "../v4/htmlCssWorld";
 import { htmlCssV5World } from "./v5World";
+import { htmlCssInterfaceWorld } from "./interfaceWorld";
 
 const webTask = (
   id: string,
@@ -721,6 +722,6 @@ const baseTrack = createCurriculumTrack({
 });
 
 export const track = appendCurriculumWorld(
-  appendCurriculumWorld(baseTrack, htmlCssV4World),
-  htmlCssV5World,
+  appendCurriculumWorld(appendCurriculumWorld(baseTrack, htmlCssV4World), htmlCssV5World),
+  htmlCssInterfaceWorld,
 );

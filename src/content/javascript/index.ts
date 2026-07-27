@@ -2,6 +2,7 @@ import { appendCurriculumWorld, createCurriculumTrack } from "../_shared/defineL
 import { outputBonus, outputTask } from "../_shared/taskBuilders";
 import { javascriptV4World } from "../v4/javascriptWorld";
 import { javascriptV5World } from "./v5World";
+import { javascriptProductWorld } from "./productWorld";
 
 const jsTask = (
   id: string,
@@ -749,6 +750,9 @@ const baseTrack = createCurriculumTrack({
 });
 
 export const track = appendCurriculumWorld(
-  appendCurriculumWorld(baseTrack, javascriptV4World),
-  javascriptV5World,
+  appendCurriculumWorld(
+    appendCurriculumWorld(baseTrack, javascriptV4World),
+    javascriptV5World,
+  ),
+  javascriptProductWorld,
 );
