@@ -4,18 +4,51 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: write-all
 
 concurrency:
   group: pages-repair
   cancel-in-progress: false
 
 jobs:
+  enable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable GitHub Pages workflow source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          set +e
+          output="$(gh api \
+            --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "repos/${GITHUB_REPOSITORY}/pages" \
+            -f build_type=workflow 2>&1)"
+          status=$?
+          set -e
+
+          printf '%s\n' "$output"
+
+          if [ "$status" -ne 0 ]; then
+            if printf '%s' "$output" | grep -Eqi 'already exists|status 409|HTTP 409'; then
+              gh api \
+                --method PUT \
+                -H 'Accept: application/vnd.github+json' \
+                -H 'X-GitHub-Api-Version: 2022-11-28' \
+                "repos/${GITHUB_REPOSITORY}/pages" \
+                -f build_type=workflow
+            else
+              exit "$status"
+            fi
+          fi
+
   build:
     runs-on: ubuntu-latest
+    needs: enable
     steps:
       - name: Checkout main release
         uses: actions/checkout@v6
