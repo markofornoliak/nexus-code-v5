@@ -27,7 +27,7 @@ npm run test:e2e
 - 538 stable content identifiers across 51 content files;
 - zero duplicate identifiers in source-level content validation.
 
-The v5.1 release payload and its merged conflict overlay were reconstructed only after their SHA-256 checksums matched. Temporary transport files and release workflows are removed by the release commit before review. All new world accents use the existing typed design-token vocabulary, preserving theme compatibility.
+The v5.1 release payload and its merged conflict overlay were reconstructed only after their SHA-256 checksums matched. Temporary transport files and release workflows are removed by the release commit before review. All new world accents use the existing typed design-token vocabulary, preserving theme compatibility. The redesigned landing module also keeps a zero-warning import surface after removing unused exploratory icons.
 
 ## Quality signals
 
