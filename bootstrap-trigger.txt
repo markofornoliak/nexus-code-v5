@@ -1,2 +1,2 @@
 Trigger the verified NEXUS CODE v5 bootstrap workflow through a pull request event.
-Duplicate ID repair pass 16.
+Quality diagnostics pass 17 — verify corrected curriculum identifiers.
