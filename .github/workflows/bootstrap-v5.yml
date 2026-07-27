@@ -5,15 +5,11 @@ on:
     types: [opened]
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches: ["main"]
-    paths:
-      - ".nexus-bootstrap/**"
-      - ".github/workflows/bootstrap-v5.yml"
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: nexus-v5-bootstrap
@@ -65,7 +61,6 @@ jobs:
               matches = sorted(candidates.get(digest, []), key=lambda p: str(p))
               if not matches:
                   raise SystemExit(f"Missing verified patch chunk: {digest}")
-              print(f"Using {matches[0]} for {digest}")
               chunks.append(matches[0].read_bytes())
 
           encoded = b"".join(chunks)
@@ -95,8 +90,7 @@ jobs:
           from pathlib import Path
           import hashlib
 
-          root = Path(".")
-          files = [p for p in root.rglob("*") if p.is_file() and ".git" not in p.parts]
+          files = [p for p in Path(".").rglob("*") if p.is_file() and ".git" not in p.parts]
           digest = hashlib.sha256()
           for path in sorted(files, key=lambda p: str(p)):
               data = path.read_bytes()
@@ -112,6 +106,8 @@ jobs:
 
       - name: Publish verified v5 source tree
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           rsync -a --exclude=.git /tmp/nexus-v4/ ./
@@ -120,4 +116,20 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Release NEXUS CODE v5"
-          git push origin HEAD:main
+
+          set +e
+          output=$(git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main 2>&1)
+          status=$?
+          set -e
+          printf '%s\n' "$output"
+
+          if [ "$status" -ne 0 ]; then
+            body=$(printf 'Bootstrap push failed:\n```text\n%s\n```' "$output" | jq -Rs '{body: .}')
+            curl -fsSL -X POST \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/1/comments" \
+              -d "$body"
+            exit "$status"
+          fi
