@@ -46,8 +46,15 @@ describe("content registry", () => {
       ...lesson.tasks.map((task) => task.id),
       lesson.bonusTask.id,
     ]);
+    const duplicateTaskIds = [
+      ...new Set(taskIds.filter((id, index) => taskIds.indexOf(id) !== index)),
+    ];
+
     expect(new Set(lessonIds).size).toBe(lessonIds.length);
-    expect(new Set(taskIds).size).toBe(taskIds.length);
+    expect(
+      duplicateTaskIds,
+      `Duplicate task ids: ${duplicateTaskIds.join(", ")}`,
+    ).toEqual([]);
     expect(lessons.every((lesson) => lesson.tasks.length === 2)).toBe(true);
   });
 
