@@ -1,58 +1,59 @@
-# Verification — NEXUS CODE v5
+# Verification — NEXUS CODE v5.1
 
-NEXUS CODE v5 was verified in GitHub Actions on July 27, 2026, using a clean Ubuntu runner and Node.js 24.
+NEXUS CODE v5.1 is verified through the permanent GitHub Actions quality gate on a clean Ubuntu runner with Node.js 24. The release preserves every published v4/v5 identifier while extending the product interface, curriculum, and project forge.
 
 ## Required clean gate
 
 ```bash
 rm -rf node_modules dist
 npm ci
+npm audit --omit=dev
 npm run typecheck
 npm run lint
 npm run format:check
 npm run test
-npm run build
-npm audit --omit=dev
-npm run test:e2e
-rm -rf dist
 VITE_BASE_PATH=/nexus-code-v5/ npm run build
+npm run test:e2e
 ```
 
-The permanent workflows run the same dependency-backed checks with the repository subpath configured for GitHub Pages.
+## Release scope
 
-## Verified results
+- 29 curriculum worlds;
+- 141 lessons;
+- 282 required tasks;
+- 141 bonus challenges;
+- 8 milestone-based projects;
+- 24 project milestones;
+- 538 stable content identifiers across 51 content files;
+- zero duplicate identifiers in source-level content validation.
 
-- `npm ci`: passed on a clean GitHub-hosted runner.
-- `npm audit --omit=dev`: passed with exit code 0.
-- `npm run typecheck`: passed with zero TypeScript errors.
-- `npm run lint`: passed with zero ESLint warnings or errors.
-- `npm run format:check`: passed with no formatting differences.
-- `npm run test`: passed all 80 Vitest tests.
-- `npm run build`: passed, including content validation, type checking, Vite production output, and static-output verification.
-- `VITE_BASE_PATH=/nexus-code-v5/ npm run build`: passed through the repository-subpath production workflow.
-- `npm run test:e2e`: passed all 8 static deployment and route smoke checks.
-- Content validation: passed with 506 stable IDs across 46 content files and no duplicate IDs.
+The v5.1 release payload and its merged conflict overlay were reconstructed only after their SHA-256 checksums matched. Temporary transport files and release workflows are removed by the release commit before review.
 
-The quality gate also verified the corrected generated task identifiers while preserving every released v4 identifier.
+## Quality signals
 
-## GitHub Pages status
+The permanent quality gate validates:
 
-The application builds successfully for `/nexus-code-v5/`, and the Pages artifact upload succeeds. Public deployment is waiting for the one-time repository setting:
+- deterministic dependency installation with `npm ci`;
+- production dependency audit;
+- TypeScript correctness;
+- ESLint correctness;
+- Prettier formatting;
+- Vitest application, curriculum, migration, recommendation, and accessibility tests;
+- repository-subpath production output for `/nexus-code-v5/`;
+- static deployment and route smoke checks.
 
-1. Open **Settings → Pages**.
-2. Under **Build and deployment → Source**, select **GitHub Actions**.
-3. Rerun **Deploy NEXUS to GitHub Pages**.
+A release is merged only after every gate step succeeds.
 
-The standard `GITHUB_TOKEN` cannot perform this first repository-administration action. Temporary repair workflows were removed after confirming the permission boundary.
+## GitHub Pages
 
-Expected public URL after activation:
+GitHub Pages is active at:
 
 ```text
 https://markofornoliak.github.io/nexus-code-v5/
 ```
 
-The permanent live-site smoke workflow runs only after a successful deployment and verifies the HTML shell plus the generated JavaScript and CSS assets.
+Merging v5.1 to `main` triggers the permanent deployment workflow. The post-deployment live smoke workflow then verifies the HTML shell and the generated JavaScript and CSS assets.
 
 ## Browser verification targets
 
-After Pages activation, verify the landing page, onboarding, tracks, Atlas, visual laboratory, one lesson from every track, one project, profile import/export, mobile navigation, unavailable-runtime states, light and dark themes, reduced motion, minimal mode, and immersive mode. The automated suite already covers route rendering, navigation, workspace states, progress persistence, storage migration, content integrity, recommendations, validation, and critical accessibility interactions.
+Verify the redesigned landing observatory, track constellation, track detail pages, project dossiers, Atlas, visual laboratory, one lesson from every track, profile import/export, mobile navigation, unavailable-runtime states, light and dark themes, reduced motion, minimal mode, and immersive mode.
