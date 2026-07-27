@@ -1,27 +1,29 @@
 name: Bootstrap NEXUS CODE v5
 
 on:
-  push:
+  pull_request:
     branches: ["main"]
   workflow_dispatch:
 
 permissions:
   actions: read
   contents: write
+  pull-requests: read
   pages: write
   id-token: write
 
 concurrency:
-  group: nexus-v5-bootstrap
+  group: nexus-v5-pr-bootstrap
   cancel-in-progress: true
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout bootstrap repository
+      - name: Checkout release branch
         uses: actions/checkout@v6
         with:
+          ref: agent/release-nexus-code-v5
           fetch-depth: 0
 
       - name: Reconstruct and verify v5 patch
@@ -62,7 +64,7 @@ jobs:
           test "$(find . -type f ! -path './.git/*' | wc -l)" -eq 176
           test "$(node -p "require('./package.json').version")" = "5.0.0"
 
-      - name: Commit complete v5 source
+      - name: Commit complete v5 source to release branch
         shell: bash
         run: |
           set -euo pipefail
@@ -70,7 +72,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Release NEXUS CODE v5"
-          git push origin HEAD:main
+          git push origin HEAD:agent/release-nexus-code-v5
 
       - name: Setup Node
         uses: actions/setup-node@v6
