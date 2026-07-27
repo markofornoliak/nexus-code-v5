@@ -1,2 +1,2 @@
 Trigger the verified NEXUS CODE v5 bootstrap workflow through a pull request event.
-Compact remaining-test diagnostics pass 20.
+Full quality gate pass 21 after v5 test inventory update.
