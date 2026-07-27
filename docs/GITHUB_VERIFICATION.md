@@ -16,3 +16,5 @@ The permanent GitHub Actions quality gate performs a clean npm installation, pro
 A release is considered verified only when the GitHub Actions quality-gate pull request passes and the GitHub Pages deployment succeeds from the resulting `main` commit.
 
 Repository: `markofornoliak/nexus-code-v5`.
+The duplicate-ID regression was corrected while preserving all released v4 identifiers.
+The final validation branch is based on the cleaned permanent-workflow configuration.
