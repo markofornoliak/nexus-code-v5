@@ -306,11 +306,13 @@ export const achievements: Achievement[] = [
   {
     id: "observatory-cartographer",
     name: "Observatory Cartographer",
-    description: "Restore one hundred twenty lesson fragments across the expanded v5 observatory.",
+    description:
+      "Restore one hundred twenty lesson fragments across the expanded v5 observatory.",
     rarity: "mythic",
     icon: "network",
     condition: { type: "lesson-count", count: 120 },
-    discoveryText: "The archive has become a working observatory of connected programming knowledge.",
+    discoveryText:
+      "The archive has become a working observatory of connected programming knowledge.",
   },
   {
     id: "singularity-reactor",

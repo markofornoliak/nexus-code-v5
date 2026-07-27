@@ -5,17 +5,42 @@ import { useProgress } from "../features/progress/ProgressContext";
 import { Link, useNavigate } from "../router";
 import type { ExperienceLevel, LearningGoal, UserPreferences } from "../types";
 
-const experienceOptions: Array<{ value: ExperienceLevel; label: string; text: string }> = [
-  { value: "new", label: "New learner", text: "I need careful foundations and short practice loops." },
-  { value: "some", label: "Some experience", text: "I know basics and want structured progression." },
-  { value: "working", label: "Working developer", text: "I want advanced practice, architecture, and review." },
-];
+const experienceOptions: Array<{ value: ExperienceLevel; label: string; text: string }> =
+  [
+    {
+      value: "new",
+      label: "New learner",
+      text: "I need careful foundations and short practice loops.",
+    },
+    {
+      value: "some",
+      label: "Some experience",
+      text: "I know basics and want structured progression.",
+    },
+    {
+      value: "working",
+      label: "Working developer",
+      text: "I want advanced practice, architecture, and review.",
+    },
+  ];
 
 const goalOptions: Array<{ value: LearningGoal; label: string; text: string }> = [
-  { value: "foundations", label: "Foundations", text: "Build reliable programming basics." },
-  { value: "projects", label: "Projects", text: "Finish practical browser-safe capstones." },
+  {
+    value: "foundations",
+    label: "Foundations",
+    text: "Build reliable programming basics.",
+  },
+  {
+    value: "projects",
+    label: "Projects",
+    text: "Finish practical browser-safe capstones.",
+  },
   { value: "career", label: "Career", text: "Strengthen portfolio-ready coding skills." },
-  { value: "interview", label: "Interview", text: "Practice algorithms, reasoning, and debugging." },
+  {
+    value: "interview",
+    label: "Interview",
+    text: "Practice algorithms, reasoning, and debugging.",
+  },
 ];
 
 export default function OnboardingPage() {
@@ -161,7 +186,8 @@ export default function OnboardingPage() {
 
       <div className="onboarding-actions">
         <button className="button button-primary" type="button" onClick={finish}>
-          <CheckCircle2 aria-hidden="true" /> Save calibration <ArrowRight aria-hidden="true" />
+          <CheckCircle2 aria-hidden="true" /> Save calibration{" "}
+          <ArrowRight aria-hidden="true" />
         </button>
         <Link className="button button-secondary" to="/tracks">
           Skip and explore tracks

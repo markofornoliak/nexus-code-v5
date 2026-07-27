@@ -191,7 +191,6 @@ function parseDrafts(value: unknown): Record<string, TaskDraft> {
   );
 }
 
-
 function parseProjectProgress(value: unknown): Record<string, ProjectProgress> {
   if (!isRecord(value)) return {};
   return Object.fromEntries(
@@ -226,7 +225,10 @@ function safeExperienceLevel(value: unknown): UserPreferences["experienceLevel"]
 }
 
 function safeLearningGoal(value: unknown): UserPreferences["primaryGoal"] {
-  return value === "foundations" || value === "career" || value === "interview" || value === "projects"
+  return value === "foundations" ||
+    value === "career" ||
+    value === "interview" ||
+    value === "projects"
     ? value
     : "projects";
 }

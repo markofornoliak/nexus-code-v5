@@ -146,7 +146,11 @@ export default function ProfilePage() {
           <Box aria-hidden="true" />
           <span>Projects</span>
           <strong>
-            {Object.values(state.projectProgress).filter((project) => project.isCompleted).length}
+            {
+              Object.values(state.projectProgress).filter(
+                (project) => project.isCompleted,
+              ).length
+            }
           </strong>
           <small>{projects.length} available capstones</small>
         </article>
@@ -305,7 +309,9 @@ export default function ProfilePage() {
             <p className="eyebrow">Project forge</p>
             <h2>Capstone progression</h2>
           </div>
-          <Link className="text-link" to="/projects">Open projects</Link>
+          <Link className="text-link" to="/projects">
+            Open projects
+          </Link>
         </div>
         <div className="language-progress-list">
           {projects.map((project) => {

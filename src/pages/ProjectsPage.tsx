@@ -12,11 +12,10 @@ export default function ProjectsPage() {
         <p className="eyebrow">Project forge / v5 assessments</p>
         <h1>Build complete systems, not isolated fragments.</h1>
         <p>
-          Projects are cumulative checkpoints with milestone acceptance criteria,
-          starter files, architecture notes, and local completion state. They remain
-          realistic for a static browser app: Python and JavaScript run in isolated
-          workers, HTML/CSS renders in a sandbox, and Java/C++ stay honest structural
-          design exercises.
+          Projects are cumulative checkpoints with milestone acceptance criteria, starter
+          files, architecture notes, and local completion state. They remain realistic for
+          a static browser app: Python and JavaScript run in isolated workers, HTML/CSS
+          renders in a sandbox, and Java/C++ stay honest structural design exercises.
         </p>
       </header>
 
@@ -37,8 +36,9 @@ export default function ProjectsPage() {
           <RadioTower aria-hidden="true" />
           <strong>
             {
-              Object.values(state.projectProgress).filter((progress) => progress.isCompleted)
-                .length
+              Object.values(state.projectProgress).filter(
+                (progress) => progress.isCompleted,
+              ).length
             }
           </strong>
           <span>completed locally</span>
@@ -55,9 +55,14 @@ export default function ProjectsPage() {
           const track = getTrack(project.trackId);
           const progress = state.projectProgress[project.id];
           const completed = progress?.completedMilestoneIds ?? [];
-          const percent = Math.round((completed.length / project.milestones.length) * 100);
+          const percent = Math.round(
+            (completed.length / project.milestones.length) * 100,
+          );
           return (
-            <article className={`project-card accent-${track?.accent ?? "cyan"}`} key={project.id}>
+            <article
+              className={`project-card accent-${track?.accent ?? "cyan"}`}
+              key={project.id}
+            >
               <header>
                 <div>
                   <span className="instrument-label">
@@ -127,11 +132,13 @@ export default function ProjectsPage() {
                       </ul>
                       <details>
                         <summary>Starter files</summary>
-                        {Object.entries(milestone.starterFiles).map(([filename, code]) => (
-                          <pre key={filename}>
-                            <code>{`// ${filename}\n${code}`}</code>
-                          </pre>
-                        ))}
+                        {Object.entries(milestone.starterFiles).map(
+                          ([filename, code]) => (
+                            <pre key={filename}>
+                              <code>{`// ${filename}\n${code}`}</code>
+                            </pre>
+                          ),
+                        )}
                       </details>
                     </section>
                   );

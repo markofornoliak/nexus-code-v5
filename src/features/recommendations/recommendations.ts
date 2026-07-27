@@ -73,7 +73,8 @@ export function getPrimaryRecommendation(
     title: "Project forge",
     route: "/projects",
     label: "Open projects",
-    reason: "Open projects because all immediately available lesson recommendations are complete.",
+    reason:
+      "Open projects because all immediately available lesson recommendations are complete.",
     kind: "project",
   };
 }

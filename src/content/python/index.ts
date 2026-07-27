@@ -55,6 +55,9 @@ const baseTrack: Track = {
 };
 
 export const track = appendCurriculumWorld(
-  appendCurriculumWorld(appendCurriculumWorld(baseTrack, pythonV4World), pythonTypecraftWorld),
+  appendCurriculumWorld(
+    appendCurriculumWorld(baseTrack, pythonV4World),
+    pythonTypecraftWorld,
+  ),
   pythonCapstoneWorld,
 );

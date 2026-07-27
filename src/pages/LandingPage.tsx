@@ -62,15 +62,16 @@ export default function LandingPage() {
           <span>−60°</span>
         </aside>
         <div className="hero-copy">
-          <p className="eyebrow">
-            Plate 05 / Living code observatory / Archive online
-          </p>
+          <p className="eyebrow">Plate 05 / Living code observatory / Archive online</p>
           <h1>
             Recover the logic.
             <em>Rebuild the signal.</em>
           </h1>
           <p className="hero-description">
-            NEXUS CODE v5 is a browser-native programming observatory. Restore Python, JavaScript, web, Java, and C++ knowledge through runnable challenges, sandboxed previews, honest structural analysis, projects, and local-first progress.
+            NEXUS CODE v5 is a browser-native programming observatory. Restore Python,
+            JavaScript, web, Java, and C++ knowledge through runnable challenges,
+            sandboxed previews, honest structural analysis, projects, and local-first
+            progress.
           </p>
           <div className="button-row">
             <Link className="button button-primary" to={primaryRoute}>
@@ -118,7 +119,10 @@ export default function LandingPage() {
 
       <MissionDeck />
 
-      <section className="section-shell recommendation-panel" aria-label="Recommended next action">
+      <section
+        className="section-shell recommendation-panel"
+        aria-label="Recommended next action"
+      >
         <div>
           <span className="instrument-label">Deterministic recommendation</span>
           <h2>{recommendation.title}</h2>

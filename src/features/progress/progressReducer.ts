@@ -187,7 +187,6 @@ function completeLesson(
   return { ...state, progress: addAchievements(progress, timestamp) };
 }
 
-
 function recordProjectMilestone(
   state: StoredApplicationState,
   action: Extract<ProgressAction, { type: "record-project-milestone" }>,
@@ -218,7 +217,9 @@ function recordProjectMilestone(
     activity: [
       activity(
         "project",
-        isCompleted ? `Project completed: ${action.label}` : `Project milestone: ${action.label}`,
+        isCompleted
+          ? `Project completed: ${action.label}`
+          : `Project milestone: ${action.label}`,
         xp,
         timestamp,
       ),
@@ -297,7 +298,10 @@ export function progressReducer(
           experienceLevel: action.experienceLevel,
           primaryGoal: action.primaryGoal,
           preferredTrackId: action.preferredTrackId?.slice(0, 80) ?? null,
-          weeklyLessonGoal: Math.max(1, Math.min(14, Math.round(action.weeklyLessonGoal))),
+          weeklyLessonGoal: Math.max(
+            1,
+            Math.min(14, Math.round(action.weeklyLessonGoal)),
+          ),
           visualMode: action.visualMode,
           reducedMotion: action.reducedMotion,
         },

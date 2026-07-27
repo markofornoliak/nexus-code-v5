@@ -32,7 +32,8 @@ export const projects: LearningProject[] = [
           "The model does not depend on random state or host files.",
         ],
         starterFiles: {
-          "main.py": "rooms = {\n    'atrium': {'east': 'lab', 'item': None},\n    'lab': {'west': 'atrium', 'north': 'vault', 'item': 'coil'},\n    'vault': {'south': 'lab', 'item': 'prism'},\n}\nlocation = 'atrium'\n",
+          "main.py":
+            "rooms = {\n    'atrium': {'east': 'lab', 'item': None},\n    'lab': {'west': 'atrium', 'north': 'vault', 'item': 'coil'},\n    'vault': {'south': 'lab', 'item': 'prism'},\n}\nlocation = 'atrium'\n",
         },
       },
       {
@@ -45,7 +46,8 @@ export const projects: LearningProject[] = [
           "inventory prints sorted item names.",
         ],
         starterFiles: {
-          "commands.py": "def parse(command):\n    return command.strip().lower().split()\n",
+          "commands.py":
+            "def parse(command):\n    return command.strip().lower().split()\n",
         },
       },
       {
@@ -58,7 +60,8 @@ export const projects: LearningProject[] = [
           "All milestone checks are represented as booleans.",
         ],
         starterFiles: {
-          "review.py": "checks = []\n# append (label, boolean) pairs and print the summary\n",
+          "review.py":
+            "checks = []\n# append (label, boolean) pairs and print the summary\n",
         },
       },
     ],
@@ -93,7 +96,9 @@ export const projects: LearningProject[] = [
           "Unknown actions return the previous state.",
           "A render helper summarizes level and XP.",
         ],
-        starterFiles: { "app.js": "function reducer(state, action) {\n  return state;\n}\n" },
+        starterFiles: {
+          "app.js": "function reducer(state, action) {\n  return state;\n}\n",
+        },
       },
       {
         id: "javascript-dashboard-events",
@@ -109,7 +114,8 @@ export const projects: LearningProject[] = [
       {
         id: "javascript-dashboard-async",
         title: "Mock data loader",
-        objective: "Load deterministic data with async helpers and recover from failures.",
+        objective:
+          "Load deterministic data with async helpers and recover from failures.",
         acceptanceCriteria: [
           "Success path awaits two local loaders.",
           "Failure path catches a rejected promise.",
@@ -143,13 +149,16 @@ export const projects: LearningProject[] = [
       {
         id: "html-console-structure",
         title: "Semantic shell",
-        objective: "Create header, main, form, section, and aside landmarks with clear headings.",
+        objective:
+          "Create header, main, form, section, and aside landmarks with clear headings.",
         acceptanceCriteria: [
           "Every input has a visible label.",
           "Reading order matches the visual workflow.",
           "No placeholder acts as the only label.",
         ],
-        starterFiles: { "index.html": "<main class=\"console\">\n  <h1>Signal console</h1>\n</main>\n" },
+        starterFiles: {
+          "index.html": '<main class="console">\n  <h1>Signal console</h1>\n</main>\n',
+        },
       },
       {
         id: "html-console-tokens",
@@ -199,7 +208,8 @@ export const projects: LearningProject[] = [
       {
         id: "java-inventory-model",
         title: "Immutable model",
-        objective: "Create Relic with private final fields, constructor validation, and getters.",
+        objective:
+          "Create Relic with private final fields, constructor validation, and getters.",
         acceptanceCriteria: [
           "Fields are private final.",
           "Constructor rejects invalid arguments.",
@@ -210,13 +220,17 @@ export const projects: LearningProject[] = [
       {
         id: "java-inventory-service",
         title: "Service layer",
-        objective: "Create InventoryService with a typed collection and formatter dependency.",
+        objective:
+          "Create InventoryService with a typed collection and formatter dependency.",
         acceptanceCriteria: [
           "Formatter is an interface dependency.",
           "Collection fields use generics.",
           "Service methods do not rely on public mutable model fields.",
         ],
-        starterFiles: { "InventoryService.java": "import java.util.*;\npublic class InventoryService {\n}\n" },
+        starterFiles: {
+          "InventoryService.java":
+            "import java.util.*;\npublic class InventoryService {\n}\n",
+        },
       },
       {
         id: "java-inventory-entry",
@@ -227,7 +241,10 @@ export const projects: LearningProject[] = [
           "Object creation is visible and deterministic.",
           "No fake runtime output is claimed inside NEXUS.",
         ],
-        starterFiles: { "Main.java": "public class Main {\n  public static void main(String[] args) {\n  }\n}\n" },
+        starterFiles: {
+          "Main.java":
+            "public class Main {\n  public static void main(String[] args) {\n  }\n}\n",
+        },
       },
     ],
   },
@@ -261,7 +278,10 @@ export const projects: LearningProject[] = [
           "No raw owning Node* collection is used.",
           "Headers include memory and vector.",
         ],
-        starterFiles: { "graph.hpp": "#include <memory>\n#include <vector>\nstruct Node {};\nclass Graph {};\n" },
+        starterFiles: {
+          "graph.hpp":
+            "#include <memory>\n#include <vector>\nstruct Node {};\nclass Graph {};\n",
+        },
       },
       {
         id: "cpp-graph-copy-move",
@@ -277,13 +297,16 @@ export const projects: LearningProject[] = [
       {
         id: "cpp-graph-traversal",
         title: "Read-only traversal",
-        objective: "Declare traversal helpers that accept const Graph& when they only inspect.",
+        objective:
+          "Declare traversal helpers that accept const Graph& when they only inspect.",
         acceptanceCriteria: [
           "Read-only API uses const Graph&.",
           "Traversal does not mutate ownership containers.",
           "Native compilation is documented as the next verification step.",
         ],
-        starterFiles: { "traversal.hpp": "class Graph;\nvoid visitAll(const Graph& graph);\n" },
+        starterFiles: {
+          "traversal.hpp": "class Graph;\nvoid visitAll(const Graph& graph);\n",
+        },
       },
     ],
   },

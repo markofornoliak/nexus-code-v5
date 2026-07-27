@@ -33,7 +33,8 @@ for (const entry of idEntries) {
 const duplicates = [...byId.entries()].filter(([, locations]) => locations.length > 1);
 if (duplicates.length > 0) {
   console.error("Duplicate content ids detected:");
-  for (const [id, locations] of duplicates) console.error(`- ${id}: ${locations.join(", ")}`);
+  for (const [id, locations] of duplicates)
+    console.error(`- ${id}: ${locations.join(", ")}`);
   process.exit(1);
 }
 
@@ -67,7 +68,9 @@ for (const relative of DOCS) {
 
 const minIds = 430;
 if (idEntries.length < minIds) {
-  console.error(`Expected at least ${minIds} content ids after v5 expansion, found ${idEntries.length}.`);
+  console.error(
+    `Expected at least ${minIds} content ids after v5 expansion, found ${idEntries.length}.`,
+  );
   process.exit(1);
 }
 

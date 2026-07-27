@@ -110,7 +110,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
       syntax: "def normalize(name: str) -> str:",
       example: {
         title: "Typed coordinate formatter",
-        description: "The annotations explain the expected inputs while the function still runs normally.",
+        description:
+          "The annotations explain the expected inputs while the function still runs normally.",
         code: 'def coordinate(sector: int, fragment: int) -> str:\n    return f"NX-{sector:02d}:{fragment:02d}"\n\nprint(coordinate(3, 7))',
         output: "NX-03:07",
       },
@@ -125,9 +126,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-type-hints-format",
           title: "Format a typed beacon",
-          description: "Write a function label(name: str, level: int) -> str and print Prism@5.",
+          description:
+            "Write a function label(name: str, level: int) -> str and print Prism@5.",
           expectedBehavior: "Print Prism@5.",
-          starterCode: "# Define label with parameter and return annotations\n\nprint(label(\"Prism\", 5))",
+          starterCode:
+            '# Define label with parameter and return annotations\n\nprint(label("Prism", 5))',
           expected: "Prism@5",
           hints: [
             "The function needs two annotated parameters.",
@@ -138,9 +141,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-type-hints-none",
           title: "Return an optional marker",
-          description: "Write first_positive(values: list[int]) -> int | None and print its result for [-3, 0, 8].",
+          description:
+            "Write first_positive(values: list[int]) -> int | None and print its result for [-3, 0, 8].",
           expectedBehavior: "Print 8.",
-          starterCode: "def first_positive(values: list[int]) -> int | None:\n    # Return the first positive integer, or None\n    pass\n\nprint(first_positive([-3, 0, 8]))",
+          starterCode:
+            "def first_positive(values: list[int]) -> int | None:\n    # Return the first positive integer, or None\n    pass\n\nprint(first_positive([-3, 0, 8]))",
           expected: "8",
           hints: [
             "Loop through the values in order.",
@@ -152,15 +157,17 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
       bonus: {
         id: "python-type-hints-bonus",
         title: "Typed intake decoder",
-        description: "Read two lines, convert the second to int, call a typed function, and print Beacon:42.",
+        description:
+          "Read two lines, convert the second to int, call a typed function, and print Beacon:42.",
         expectedBehavior: "For Beacon and 42 print Beacon:42.",
-        starterCode: "name = input()\nraw = input()\n# Build a typed formatter and call it\n",
+        starterCode:
+          "name = input()\nraw = input()\n# Build a typed formatter and call it\n",
         expected: "Beacon:42",
         defaultInput: "Beacon\n42",
         hints: [
           "Convert raw with int(raw).",
           "Use a function with name: str and value: int.",
-          "Return f\"{name}:{value}\" from the function.",
+          'Return f"{name}:{value}" from the function.',
         ],
         discoveryText: "The Static Lens Array starts recording explicit contracts.",
       },
@@ -204,7 +211,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           title: "Create a fragment record",
           description: "Create Fragment with name and energy fields, then print Arc:64.",
           expectedBehavior: "Print Arc:64.",
-          starterCode: "from dataclasses import dataclass\n\n# Define Fragment\n\nfragment = Fragment(\"Arc\", 64)\nprint(f\"{fragment.name}:{fragment.energy}\")",
+          starterCode:
+            'from dataclasses import dataclass\n\n# Define Fragment\n\nfragment = Fragment("Arc", 64)\nprint(f"{fragment.name}:{fragment.energy}")',
           expected: "Arc:64",
           hints: [
             "Decorate the class with @dataclass.",
@@ -217,7 +225,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           title: "Add a record method",
           description: "Add a label method to Sensor that returns north/ready.",
           expectedBehavior: "Print north/ready.",
-          starterCode: "from dataclasses import dataclass\n\n@dataclass\nclass Sensor:\n    zone: str\n    status: str\n\n    # Add label(self)\n\nsensor = Sensor(\"north\", \"ready\")\nprint(sensor.label())",
+          starterCode:
+            'from dataclasses import dataclass\n\n@dataclass\nclass Sensor:\n    zone: str\n    status: str\n\n    # Add label(self)\n\nsensor = Sensor("north", "ready")\nprint(sensor.label())',
           expected: "north/ready",
           hints: [
             "A method inside a class receives self.",
@@ -229,16 +238,19 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
       bonus: {
         id: "python-dataclasses-bonus",
         title: "Sort recovered nodes",
-        description: "Create Node records from three pairs and print their names ordered by energy descending.",
+        description:
+          "Create Node records from three pairs and print their names ordered by energy descending.",
         expectedBehavior: "Print beta alpha gamma.",
-        starterCode: "from dataclasses import dataclass\n\n# Define Node(name: str, energy: int)\nraw = [(\"alpha\", 7), (\"beta\", 9), (\"gamma\", 3)]\n# Build, sort, and report\n",
+        starterCode:
+          'from dataclasses import dataclass\n\n# Define Node(name: str, energy: int)\nraw = [("alpha", 7), ("beta", 9), ("gamma", 3)]\n# Build, sort, and report\n',
         expected: "beta alpha gamma",
         hints: [
           "Build a list of Node instances from raw.",
           "Use sorted with key=lambda node: node.energy.",
           "Set reverse=True and join node.name values.",
         ],
-        discoveryText: "Records in the observatory now carry stable identity and measurable strength.",
+        discoveryText:
+          "Records in the observatory now carry stable identity and measurable strength.",
       },
     }),
     lesson({
@@ -278,9 +290,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-protocol-thinking-total",
           title: "Count label strength",
-          description: "Write total_label_length(labels) and print 10 for the provided tuple.",
+          description:
+            "Write total_label_length(labels) and print 10 for the provided tuple.",
           expectedBehavior: "Print 10.",
-          starterCode: "def total_label_length(labels):\n    # Sum lengths without caring whether labels is a list or tuple\n    pass\n\nprint(total_label_length((\"ion\", \"beacon\", \"x\")))",
+          starterCode:
+            'def total_label_length(labels):\n    # Sum lengths without caring whether labels is a list or tuple\n    pass\n\nprint(total_label_length(("ion", "beacon", "x")))',
           expected: "10",
           hints: [
             "Iterate directly over labels.",
@@ -293,7 +307,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           title: "Read from a small interface",
           description: "Call .read() on the supplied object and uppercase the result.",
           expectedBehavior: "Print SIGNAL.",
-          starterCode: "class Buffer:\n    def read(self):\n        return \"signal\"\n\ndef decode(source):\n    # Depend only on source.read()\n    pass\n\nprint(decode(Buffer()))",
+          starterCode:
+            'class Buffer:\n    def read(self):\n        return "signal"\n\ndef decode(source):\n    # Depend only on source.read()\n    pass\n\nprint(decode(Buffer()))',
           expected: "SIGNAL",
           hints: [
             "Call source.read().",
@@ -305,16 +320,19 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
       bonus: {
         id: "python-protocol-thinking-bonus",
         title: "Format any named object",
-        description: "Write describe(item) that uses item.name and item.energy for the provided object.",
+        description:
+          "Write describe(item) that uses item.name and item.energy for the provided object.",
         expectedBehavior: "Print Coil=12.",
-        starterCode: "class Relic:\n    name = \"Coil\"\n    energy = 12\n\n# Describe any object with name and energy attributes\n",
+        starterCode:
+          'class Relic:\n    name = "Coil"\n    energy = 12\n\n# Describe any object with name and energy attributes\n',
         expected: "Coil=12",
         hints: [
           "The function does not need to check the concrete class.",
           "Access attributes with item.name and item.energy.",
           "Print describe(Relic()).",
         ],
-        discoveryText: "The archive can now accept compatible instruments instead of one fixed shell.",
+        discoveryText:
+          "The archive can now accept compatible instruments instead of one fixed shell.",
       },
     }),
     lesson({
@@ -336,7 +354,7 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         "Test the smallest useful unit.",
         "Name the scenario the test protects.",
       ],
-      syntax: "assert normalize(\" nx \") == \"NX\"",
+      syntax: 'assert normalize(" nx ") == "NX"',
       example: {
         title: "Protect a normalizer",
         description: "Two assertions guard whitespace and casing behavior.",
@@ -354,27 +372,31 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-pytest-style-checks-normalize",
           title: "Assert a normalizer",
-          description: "Implement normalize and include two asserts before printing verified.",
+          description:
+            "Implement normalize and include two asserts before printing verified.",
           expectedBehavior: "Print verified.",
-          starterCode: "def normalize(label):\n    # Strip spaces and uppercase\n    pass\n\n# Add two assert statements\nprint(\"verified\")",
+          starterCode:
+            'def normalize(label):\n    # Strip spaces and uppercase\n    pass\n\n# Add two assert statements\nprint("verified")',
           expected: "verified",
           hints: [
             "Return label.strip().upper().",
-            "Assert normalize(\" nx \") == \"NX\".",
-            "A second assert can check normalize(\"arc\") == \"ARC\".",
+            'Assert normalize(" nx ") == "NX".',
+            'A second assert can check normalize("arc") == "ARC".',
           ],
         },
         {
           id: "python-pytest-style-checks-edge",
           title: "Test an empty reading",
-          description: "Write is_blank(text) and assert that spaces are blank but X is not.",
+          description:
+            "Write is_blank(text) and assert that spaces are blank but X is not.",
           expectedBehavior: "Print edge safe.",
-          starterCode: "def is_blank(text):\n    # True when stripping leaves no characters\n    pass\n\n# Protect both edge and normal paths\nprint(\"edge safe\")",
+          starterCode:
+            'def is_blank(text):\n    # True when stripping leaves no characters\n    pass\n\n# Protect both edge and normal paths\nprint("edge safe")',
           expected: "edge safe",
           hints: [
             "Use text.strip() to remove whitespace.",
             "Compare the stripped string to an empty string.",
-            "Use assert is_blank(\"   \") and assert not is_blank(\"X\").",
+            'Use assert is_blank("   ") and assert not is_blank("X").',
           ],
         },
       ],
@@ -390,7 +412,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           "Assert is_ready(50).",
           "Assert not is_ready(49), then print the required line.",
         ],
-        discoveryText: "The observatory no longer trusts a helper without a behavioral witness.",
+        discoveryText:
+          "The observatory no longer trusts a helper without a behavioral witness.",
       },
     }),
     lesson({
@@ -402,7 +425,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         "Use assertions to catch impossible state",
         "Separate debugging checks from user output",
       ],
-      conceptHeading: "An invariant is a condition that should remain true during execution",
+      conceptHeading:
+        "An invariant is a condition that should remain true during execution",
       explanation: [
         "When a loop transforms state, some facts should remain valid: counts stay non-negative, totals equal the sum of processed values, or indexes remain inside bounds. Naming those facts gives debugging direction.",
         "Assertions can guard invariants during development. They are not a replacement for user-facing error handling, but they make broken assumptions visible while you build.",
@@ -412,7 +436,7 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         "Assert it near the state transition.",
         "Keep final program output clean and predictable.",
       ],
-      syntax: "assert total >= 0, \"total cannot be negative\"",
+      syntax: 'assert total >= 0, "total cannot be negative"',
       example: {
         title: "Guard a running count",
         description: "The assertion documents that processed items cannot be negative.",
@@ -430,9 +454,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-debugging-invariants-count",
           title: "Protect a count",
-          description: "Count positive numbers and assert the count never becomes negative.",
+          description:
+            "Count positive numbers and assert the count never becomes negative.",
           expectedBehavior: "Print 3.",
-          starterCode: "values = [-1, 4, 0, 6, 9]\ncount = 0\nfor value in values:\n    # Count positives and protect the invariant\n    pass\nprint(count)",
+          starterCode:
+            "values = [-1, 4, 0, 6, 9]\ncount = 0\nfor value in values:\n    # Count positives and protect the invariant\n    pass\nprint(count)",
           expected: "3",
           hints: [
             "Only increment when value > 0.",
@@ -443,9 +469,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-debugging-invariants-total",
           title: "Protect a total",
-          description: "Add readings and assert total equals the sum of already processed values.",
+          description:
+            "Add readings and assert total equals the sum of already processed values.",
           expectedBehavior: "Print 12.",
-          starterCode: "readings = [3, 4, 5]\ntotal = 0\nseen = []\nfor reading in readings:\n    # Update total and seen, then assert the invariant\n    pass\nprint(total)",
+          starterCode:
+            "readings = [3, 4, 5]\ntotal = 0\nseen = []\nfor reading in readings:\n    # Update total and seen, then assert the invariant\n    pass\nprint(total)",
           expected: "12",
           hints: [
             "Append reading to seen after adding it.",
@@ -459,14 +487,16 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         title: "Validate balanced inventory",
         description: "Process changes and assert stock never drops below zero.",
         expectedBehavior: "Print STOCK=4.",
-        starterCode: "stock = 2\nchanges = [5, -1, -2]\n# Apply changes with an invariant check\n",
+        starterCode:
+          "stock = 2\nchanges = [5, -1, -2]\n# Apply changes with an invariant check\n",
         expected: "STOCK=4",
         hints: [
           "Update stock once per change.",
           "Assert stock >= 0 after each update.",
           "Print the final label with an f-string.",
         ],
-        discoveryText: "The debugging beacons now identify impossible state transitions early.",
+        discoveryText:
+          "The debugging beacons now identify impossible state transitions early.",
       },
     }),
     lesson({
@@ -488,7 +518,7 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         "Use / to join path fragments.",
         "Use .name, .stem, .suffix, and .parent to inspect a path.",
       ],
-      syntax: "from pathlib import Path\npath = Path(\"archive\") / \"signal.txt\"",
+      syntax: 'from pathlib import Path\npath = Path("archive") / "signal.txt"',
       example: {
         title: "Inspect a project file path",
         description: "Path parts are available without manual splitting.",
@@ -506,9 +536,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         {
           id: "python-standard-library-paths-name",
           title: "Extract a file name",
-          description: "Use pathlib to print signal.json from archive/sector/signal.json.",
+          description:
+            "Use pathlib to print signal.json from archive/sector/signal.json.",
           expectedBehavior: "Print signal.json.",
-          starterCode: "from pathlib import Path\npath = Path(\"archive\") / \"sector\" / \"signal.json\"\n# Print the file name\n",
+          starterCode:
+            'from pathlib import Path\npath = Path("archive") / "sector" / "signal.json"\n# Print the file name\n',
           expected: "signal.json",
           hints: [
             "The path object has a .name property.",
@@ -521,10 +553,11 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           title: "Report a route suffix",
           description: "Create data/relics.csv with Path and print relics|.csv.",
           expectedBehavior: "Print relics|.csv.",
-          starterCode: "from pathlib import Path\n# Build a path object for data/relics.csv\n",
+          starterCode:
+            "from pathlib import Path\n# Build a path object for data/relics.csv\n",
           expected: "relics|.csv",
           hints: [
-            "Use Path(\"data\") / \"relics.csv\".",
+            'Use Path("data") / "relics.csv".',
             ".stem gives relics.",
             ".suffix gives .csv.",
           ],
@@ -543,7 +576,8 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           "Use .name for the full filename.",
           "Use .suffix for the extension.",
         ],
-        discoveryText: "The archive can now parse routes without assuming one host operating system.",
+        discoveryText:
+          "The archive can now parse routes without assuming one host operating system.",
       },
     }),
   ],
@@ -584,7 +618,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         code: 'raw = "status prism"\nparts = raw.split()\nif parts[0] == "status":\n    print(f"STATUS {parts[1].upper()}")',
         output: "STATUS PRISM",
       },
-      fieldNote: "Parsing is product design: every invalid input needs a humane, deterministic answer.",
+      fieldNote:
+        "Parsing is product design: every invalid input needs a humane, deterministic answer.",
       mistakes: [
         "Indexing parts[1] before checking that it exists.",
         "Treating uppercase and lowercase commands as different by accident.",
@@ -614,7 +649,7 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           expected: "UNKNOWN",
           defaultInput: "jump",
           hints: [
-            "Compare command to \"scan\".",
+            'Compare command to "scan".',
             "Use an else branch for the unknown case.",
             "The exact output is uppercase UNKNOWN.",
           ],
@@ -625,7 +660,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         title: "Add and list relics",
         description: "Process three commands, add names to a list, and list them sorted.",
         expectedBehavior: "For add prism, add coil, list print coil,prism.",
-        starterCode: "commands = [input(), input(), input()]\nrelics = []\n# Process add/list commands\n",
+        starterCode:
+          "commands = [input(), input(), input()]\nrelics = []\n# Process add/list commands\n",
         expected: "coil,prism",
         defaultInput: "add prism\nadd coil\nlist",
         hints: [
@@ -633,7 +669,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           "Append the second token for add.",
           "When the command is list, print sorted relics joined by commas.",
         ],
-        discoveryText: "The Application Furnace receives its first text-control interface.",
+        discoveryText:
+          "The Application Furnace receives its first text-control interface.",
       },
     }),
     lesson({
@@ -662,7 +699,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         code: 'import json\nrecord = {"energy": 42, "name": "prism"}\nprint(json.dumps(record, sort_keys=True))',
         output: '{"energy": 42, "name": "prism"}',
       },
-      fieldNote: "A serialized record is a contract with tomorrow's program. Name fields carefully.",
+      fieldNote:
+        "A serialized record is a contract with tomorrow's program. Name fields carefully.",
       mistakes: [
         "Using Python repr when a JSON string is required.",
         "Depending on accidental key order in exact-output tasks.",
@@ -672,7 +710,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         {
           id: "python-json-lines-dumps",
           title: "Serialize one record",
-          description: "Create a dictionary with name prism and energy 42, then print stable JSON.",
+          description:
+            "Create a dictionary with name prism and energy 42, then print stable JSON.",
           expectedBehavior: "Print JSON with energy before name.",
           starterCode: "import json\n# Create and serialize the record\n",
           expected: '{"energy": 42, "name": "prism"}',
@@ -687,7 +726,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Parse one record",
           description: "Parse the JSON string and print prism:42.",
           expectedBehavior: "Print prism:42.",
-          starterCode: "import json\ntext = '{\"name\": \"prism\", \"energy\": 42}'\n# Parse and report\n",
+          starterCode:
+            'import json\ntext = \'{"name": "prism", "energy": 42}\'\n# Parse and report\n',
           expected: "prism:42",
           hints: [
             "Use json.loads(text).",
@@ -700,8 +740,10 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         id: "python-json-lines-bonus",
         title: "Serialize a batch summary",
         description: "Read two names and emit stable JSON with count and sorted names.",
-        expectedBehavior: "For coil and prism print {\"count\": 2, \"names\": [\"coil\", \"prism\"]}.",
-        starterCode: "import json\nnames = [input(), input()]\n# Create a stable summary\n",
+        expectedBehavior:
+          'For coil and prism print {"count": 2, "names": ["coil", "prism"]}.',
+        starterCode:
+          "import json\nnames = [input(), input()]\n# Create a stable summary\n",
         expected: '{"count": 2, "names": ["coil", "prism"]}',
         defaultInput: "coil\nprism",
         hints: [
@@ -709,7 +751,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           "Include count: len(names).",
           "Use json.dumps(summary, sort_keys=True).",
         ],
-        discoveryText: "The local app can now export records without inventing a file server.",
+        discoveryText:
+          "The local app can now export records without inventing a file server.",
       },
     }),
     lesson({
@@ -731,7 +774,7 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         "Strip fields before converting numbers.",
         "Report exactly one final summary.",
       ],
-      syntax: "name, raw_energy = line.split(\",\")",
+      syntax: 'name, raw_energy = line.split(",")',
       example: {
         title: "Aggregate two readings",
         description: "Each row contributes one numeric energy value.",
@@ -750,7 +793,7 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Sum energy rows",
           description: "Process three simple CSV rows and print TOTAL=12.",
           expectedBehavior: "Print TOTAL=12.",
-          starterCode: "rows = [\"a,3\", \"b,4\", \"c,5\"]\ntotal = 0\n# Parse and aggregate\n",
+          starterCode: 'rows = ["a,3", "b,4", "c,5"]\ntotal = 0\n# Parse and aggregate\n',
           expected: "TOTAL=12",
           hints: [
             "Loop over rows.",
@@ -763,19 +806,21 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Filter active rows",
           description: "Keep rows with status active and print their names joined by |.",
           expectedBehavior: "Print alpha|gamma.",
-          starterCode: "rows = [\"alpha,active\", \"beta,idle\", \"gamma,active\"]\nactive = []\n# Collect active names\n",
+          starterCode:
+            'rows = ["alpha,active", "beta,idle", "gamma,active"]\nactive = []\n# Collect active names\n',
           expected: "alpha|gamma",
           hints: [
             "Split each row into name and status.",
-            "Append name only when status == \"active\".",
-            "Use \"|\".join(active).",
+            'Append name only when status == "active".',
+            'Use "|".join(active).',
           ],
         },
       ],
       bonus: {
         id: "python-csv-pipeline-bonus",
         title: "Find the strongest row",
-        description: "Read three name,energy rows and print the name with highest energy.",
+        description:
+          "Read three name,energy rows and print the name with highest energy.",
         expectedBehavior: "For alpha 5, beta 9, gamma 7 print beta.",
         starterCode: "rows = [input(), input(), input()]\n# Find the strongest row\n",
         expected: "beta",
@@ -807,16 +852,18 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         "Store functions in a dict keyed by command name.",
         "Look up the handler before calling it.",
       ],
-      syntax: "handlers = {\"ping\": ping}\nprint(handlers[command]())",
+      syntax: 'handlers = {"ping": ping}\nprint(handlers[command]())',
       example: {
         title: "Route a ping command",
-        description: "The dictionary stores the function object, not the result of calling it.",
+        description:
+          "The dictionary stores the function object, not the result of calling it.",
         code: 'def ping():\n    return "pong"\n\nhandlers = {"ping": ping}\ncommand = "ping"\nprint(handlers[command]())',
         output: "pong",
       },
-      fieldNote: "A router is useful when it reduces branching, not when it hides simple logic behind indirection.",
+      fieldNote:
+        "A router is useful when it reduces branching, not when it hides simple logic behind indirection.",
       mistakes: [
-        "Writing handlers = {\"ping\": ping()} and calling the function too early.",
+        'Writing handlers = {"ping": ping()} and calling the function too early.',
         "Skipping the unknown-command branch.",
         "Making every handler mutate shared global state unnecessarily.",
       ],
@@ -826,7 +873,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Route ping",
           description: "Use a handler dictionary so the ping command prints pong.",
           expectedBehavior: "Print pong.",
-          starterCode: "def ping():\n    return \"pong\"\n\ncommand = \"ping\"\n# Build handlers and call the selected function\n",
+          starterCode:
+            'def ping():\n    return "pong"\n\ncommand = "ping"\n# Build handlers and call the selected function\n',
           expected: "pong",
           hints: [
             "The dictionary value should be ping, not ping().",
@@ -837,9 +885,11 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         {
           id: "python-mini-router-unknown",
           title: "Guard unknown routes",
-          description: "Print offline when command is missing from the handlers dictionary.",
+          description:
+            "Print offline when command is missing from the handlers dictionary.",
           expectedBehavior: "Print offline.",
-          starterCode: "def scan():\n    return \"scanning\"\n\nhandlers = {\"scan\": scan}\ncommand = \"jump\"\n# Guard lookup before calling\n",
+          starterCode:
+            'def scan():\n    return "scanning"\n\nhandlers = {"scan": scan}\ncommand = "jump"\n# Guard lookup before calling\n',
           expected: "offline",
           hints: [
             "Use if command in handlers.",
@@ -851,9 +901,11 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
       bonus: {
         id: "python-mini-router-bonus",
         title: "Two route report",
-        description: "Route status and reset commands from input and print the selected response.",
+        description:
+          "Route status and reset commands from input and print the selected response.",
         expectedBehavior: "For reset print RESET-OK.",
-        starterCode: "command = input().strip().lower()\n# Define two handlers and route the command\n",
+        starterCode:
+          "command = input().strip().lower()\n# Define two handlers and route the command\n",
         expected: "RESET-OK",
         defaultInput: "reset",
         hints: [
@@ -883,14 +935,15 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         "Keep command parsing separate from state updates.",
         "Print a stable final summary for validation.",
       ],
-      syntax: "rooms = {\"atrium\": {\"east\": \"lab\"}}",
+      syntax: 'rooms = {"atrium": {"east": "lab"}}',
       example: {
         title: "Move once through a room map",
         description: "The location changes only when a valid exit exists.",
         code: 'rooms = {"atrium": {"east": "lab"}, "lab": {}}\nlocation = "atrium"\ncommand = "east"\nlocation = rooms[location].get(command, location)\nprint(location)',
         output: "lab",
       },
-      fieldNote: "Capstone code should read like a system: data, rules, interface, and tests are visible.",
+      fieldNote:
+        "Capstone code should read like a system: data, rules, interface, and tests are visible.",
       mistakes: [
         "Hard-coding only the sample command instead of using the map.",
         "Mutating the map when only the current location should change.",
@@ -900,9 +953,11 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         {
           id: "python-capstone-text-adventure-core-move",
           title: "Move through two rooms",
-          description: "Use the room map and commands east then north to finish at vault.",
+          description:
+            "Use the room map and commands east then north to finish at vault.",
           expectedBehavior: "Print vault.",
-          starterCode: "rooms = {\n    \"atrium\": {\"east\": \"lab\"},\n    \"lab\": {\"north\": \"vault\"},\n    \"vault\": {},\n}\ncommands = [\"east\", \"north\"]\nlocation = \"atrium\"\n# Apply commands through the map\n",
+          starterCode:
+            'rooms = {\n    "atrium": {"east": "lab"},\n    "lab": {"north": "vault"},\n    "vault": {},\n}\ncommands = ["east", "north"]\nlocation = "atrium"\n# Apply commands through the map\n',
           expected: "vault",
           hints: [
             "Loop over commands.",
@@ -913,9 +968,11 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         {
           id: "python-capstone-text-adventure-core-invalid",
           title: "Ignore invalid exits",
-          description: "Apply west then east. Invalid west keeps the player in atrium before east moves to lab.",
+          description:
+            "Apply west then east. Invalid west keeps the player in atrium before east moves to lab.",
           expectedBehavior: "Print lab.",
-          starterCode: "rooms = {\"atrium\": {\"east\": \"lab\"}, \"lab\": {}}\ncommands = [\"west\", \"east\"]\nlocation = \"atrium\"\n# Invalid exits should not move the player\n",
+          starterCode:
+            'rooms = {"atrium": {"east": "lab"}, "lab": {}}\ncommands = ["west", "east"]\nlocation = "atrium"\n# Invalid exits should not move the player\n',
           expected: "lab",
           hints: [
             "The dictionary get method can provide the current location as fallback.",
@@ -927,9 +984,11 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
       bonus: {
         id: "python-capstone-text-adventure-core-bonus",
         title: "Collect one relic",
-        description: "Move to lab, collect the relic there, and print LOCATION=lab and RELICS=coil.",
+        description:
+          "Move to lab, collect the relic there, and print LOCATION=lab and RELICS=coil.",
         expectedBehavior: "Print two final summary lines.",
-        starterCode: "rooms = {\n    \"atrium\": {\"east\": \"lab\", \"item\": None},\n    \"lab\": {\"west\": \"atrium\", \"item\": \"coil\"},\n}\nlocation = \"atrium\"\nrelics = []\ncommands = [\"east\", \"take\"]\n# Move and collect\n",
+        starterCode:
+          'rooms = {\n    "atrium": {"east": "lab", "item": None},\n    "lab": {"west": "atrium", "item": "coil"},\n}\nlocation = "atrium"\nrelics = []\ncommands = ["east", "take"]\n# Move and collect\n',
         expected: "LOCATION=lab\nRELICS=coil",
         hints: [
           "For directional commands, update location through the room map.",
@@ -958,14 +1017,15 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         "Name what each check protects.",
         "Summarize counts and failing labels.",
       ],
-      syntax: "checks = [(\"moves east\", location == \"lab\")]",
+      syntax: 'checks = [("moves east", location == "lab")]',
       example: {
         title: "Summarize two checks",
         description: "The report exposes both total pass count and failure labels.",
         code: 'checks = [("map exists", True), ("has exit", True)]\npassed = sum(1 for _, ok in checks if ok)\nprint(f"PASS={passed}/{len(checks)}")',
         output: "PASS=2/2",
       },
-      fieldNote: "A review console is a teaching instrument: it tells the learner what to inspect next.",
+      fieldNote:
+        "A review console is a teaching instrument: it tells the learner what to inspect next.",
       mistakes: [
         "Only checking that the program prints something.",
         "Hiding which requirement failed.",
@@ -977,7 +1037,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Count passing checks",
           description: "Given three checks, print PASS=2/3.",
           expectedBehavior: "Print PASS=2/3.",
-          starterCode: "checks = [(\"map\", True), (\"movement\", True), (\"inventory\", False)]\n# Count passing checks\n",
+          starterCode:
+            'checks = [("map", True), ("movement", True), ("inventory", False)]\n# Count passing checks\n',
           expected: "PASS=2/3",
           hints: [
             "Each check is a pair of label and boolean.",
@@ -990,7 +1051,8 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
           title: "Report failing labels",
           description: "Print the names of failed checks joined by commas.",
           expectedBehavior: "Print inventory,ending.",
-          starterCode: "checks = [(\"map\", True), (\"inventory\", False), (\"ending\", False)]\n# Collect failed labels\n",
+          starterCode:
+            'checks = [("map", True), ("inventory", False), ("ending", False)]\n# Collect failed labels\n',
           expected: "inventory,ending",
           hints: [
             "Keep labels where ok is false.",
@@ -1004,14 +1066,16 @@ export const pythonCapstoneWorld: CurriculumWorldSpec = {
         title: "Acceptance report",
         description: "Print PASS=3/4 and FAIL=inventory for the supplied checks.",
         expectedBehavior: "Print two review lines.",
-        starterCode: "checks = [(\"map\", True), (\"move\", True), (\"inventory\", False), (\"summary\", True)]\n# Build the acceptance report\n",
+        starterCode:
+          'checks = [("map", True), ("move", True), ("inventory", False), ("summary", True)]\n# Build the acceptance report\n',
         expected: "PASS=3/4\nFAIL=inventory",
         hints: [
           "Calculate pass count and failed labels separately.",
           "Use len(checks) for the total.",
           "Join failed labels even when there is only one.",
         ],
-        discoveryText: "The learner can now finish a project with evidence instead of hope.",
+        discoveryText:
+          "The learner can now finish a project with evidence instead of hope.",
       },
     }),
   ],

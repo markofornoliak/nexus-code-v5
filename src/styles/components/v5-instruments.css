@@ -21,6 +21,10 @@
     display: block;
     height: 100%;
     min-height: 0.55rem;
-    background: linear-gradient(90deg, var(--accent, #42a577), color-mix(in srgb, var(--accent, #42a577) 55%, white));
+    background: linear-gradient(
+      90deg,
+      var(--accent, #42a577),
+      color-mix(in srgb, var(--accent, #42a577) 55%, white)
+    );
   }
 }
