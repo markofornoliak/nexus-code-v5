@@ -22,10 +22,9 @@ describe("core components", () => {
       </MemoryRouter>,
     );
     expect(screen.getByRole("heading", { name: "Python" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /enter expedition/i })).toHaveAttribute(
-      "href",
-      "/tracks/python",
-    );
+    expect(
+      screen.getByRole("link", { name: /open curriculum map/i }),
+    ).toHaveAttribute("href", "/tracks/python");
   });
 
   it("renders structured success feedback", () => {
