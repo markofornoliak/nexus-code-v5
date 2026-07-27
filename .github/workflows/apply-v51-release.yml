@@ -32,7 +32,11 @@ jobs:
           base64 --decode /tmp/nexus-v51.patch.xz.b64 > /tmp/nexus-v51.patch.xz
           echo "93d171ab35385c3e653a9d4339815a759e78b217a760b3dbdf5146b4e1dea896  /tmp/nexus-v51.patch.xz" | sha256sum -c -
           xz -dc /tmp/nexus-v51.patch.xz > /tmp/nexus-v51.patch
-          patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51.patch
+          if ! patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51.patch > /tmp/patch.log 2>&1; then
+            echo "Patch application failed. Compact diagnostics:"
+            tail -n 120 /tmp/patch.log
+            exit 1
+          fi
 
       - name: Install, format, and validate
         shell: bash
