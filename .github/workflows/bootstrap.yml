@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: nexus-v5-bootstrap
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
