@@ -1,2 +1,1 @@
-Trigger the verified NEXUS CODE v5 bootstrap workflow through a pull request event.
-Final repository cleanup pass 24.
+Trigger final clean NEXUS CODE v5 verification against the released main branch.
