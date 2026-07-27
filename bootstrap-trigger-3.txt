@@ -1,0 +1,1 @@
+Retry verified v5 publication with explicit authenticated push and issue diagnostics.
