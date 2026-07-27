@@ -1,6 +1,6 @@
 # Verification — NEXUS CODE v5
 
-Verification was attempted in the sandbox environment on 2026-07-27.
+NEXUS CODE v5 was verified in GitHub Actions on July 27, 2026, using a clean Ubuntu runner and Node.js 24.
 
 ## Required clean gate
 
@@ -18,51 +18,41 @@ rm -rf dist
 VITE_BASE_PATH=/nexus-code-v5/ npm run build
 ```
 
-## Results from this environment
+The permanent workflows run the same dependency-backed checks with the repository subpath configured for GitHub Pages.
 
-`npm ci` could not complete because the configured package registry returned a production dependency tarball error:
+## Verified results
 
-```text
-npm error code E503
-npm error 503 Service Temporarily Unavailable - GET .../yocto-queue/-/yocto-queue-0.1.0.tgz
-```
+- `npm ci`: passed on a clean GitHub-hosted runner.
+- `npm audit --omit=dev`: passed with exit code 0.
+- `npm run typecheck`: passed with zero TypeScript errors.
+- `npm run lint`: passed with zero ESLint warnings or errors.
+- `npm run format:check`: passed with no formatting differences.
+- `npm run test`: passed all 80 Vitest tests.
+- `npm run build`: passed, including content validation, type checking, Vite production output, and static-output verification.
+- `VITE_BASE_PATH=/nexus-code-v5/ npm run build`: passed through the repository-subpath production workflow.
+- `npm run test:e2e`: passed all 8 static deployment and route smoke checks.
+- Content validation: passed with 506 stable IDs across 46 content files and no duplicate IDs.
 
-`npm audit --omit=dev` also could not complete because the same registry returned a 503 from the audit endpoint.
+The quality gate also verified the corrected generated task identifiers while preserving every released v4 identifier.
 
-Because dependencies could not be installed, the downstream dependency-backed commands were not valid final quality signals in this sandbox. Their observed failures were missing-tool or missing-type failures caused by absent `node_modules`, not completed source checks.
+## GitHub Pages status
 
-## Source-level checks that completed
+The application builds successfully for `/nexus-code-v5/`, and the Pages artifact upload succeeds. Public deployment is waiting for the one-time repository setting:
 
-```bash
-node scripts/validate-content.mjs
-```
+1. Open **Settings → Pages**.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Rerun **Deploy NEXUS to GitHub Pages**.
 
-Result:
+The standard `GITHUB_TOKEN` cannot perform this first repository-administration action. Temporary repair workflows were removed after confirming the permission boundary.
 
-```text
-Content validation passed: 506 stable ids, 46 content files, no duplicate ids.
-```
-
-```bash
-node scripts/e2e-smoke.mjs
-```
-
-Result before a production build was available:
+Expected public URL after activation:
 
 ```text
-dist/index.html not present; source-level static-hosting smoke checks completed before build.
-E2E smoke checks passed: 8 static deployment and route checks.
+https://markofornoliak.github.io/nexus-code-v5/
 ```
 
-## Dependency-backed commands observed after failed install
+The permanent live-site smoke workflow runs only after a successful deployment and verifies the HTML shell plus the generated JavaScript and CSS assets.
 
-- `npm run typecheck`: failed because `@testing-library/jest-dom`, `vite/client`, and `vitest/globals` type definitions were unavailable without installed dependencies.
-- `npm run lint`: failed because `eslint` was unavailable without installed dependencies.
-- `npm run format:check`: failed because `prettier` was unavailable without installed dependencies.
-- `npm run test`: failed because `vitest` was unavailable without installed dependencies.
-- `npm run build`: ran `validate:content` successfully, then stopped at typecheck for the same missing dependency types.
-- `VITE_BASE_PATH=/nexus-code-v5/ npm run build`: same result as the default build.
+## Browser verification targets
 
-## Manual verification targets for a machine with registry access
-
-Landing, onboarding, tracks, Atlas, visual laboratory, Python lesson, JavaScript lesson, HTML/CSS lesson, Java lesson, C++ lesson, projects, profile, import/export, mobile navigation, offline/runtime-unavailable states, light theme, dark theme, reduced motion, minimal visual mode, and immersive visual mode.
+After Pages activation, verify the landing page, onboarding, tracks, Atlas, visual laboratory, one lesson from every track, one project, profile import/export, mobile navigation, unavailable-runtime states, light and dark themes, reduced motion, minimal mode, and immersive mode. The automated suite already covers route rendering, navigation, workspace states, progress persistence, storage migration, content integrity, recommendations, validation, and critical accessibility interactions.
