@@ -1,0 +1,55 @@
+name: Fix NEXUS v5 duplicate IDs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nexus-v5-duplicate-id-fix
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Preserve v4 IDs and rename only new v5 IDs
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/content/python/v5Worlds.ts")
+          text = path.read_text()
+          replacements = {
+              'id: "python-dataclasses-method"': 'id: "python-dataclasses-v5-method"',
+              'id: "python-dataclasses-bonus"': 'id: "python-dataclasses-v5-bonus"',
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              if count == 0 and new in text:
+                  continue
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one occurrence of {old!r}, found {count}")
+              text = text.replace(old, new, 1)
+          path.write_text(text)
+          PY
+      - name: Commit corrected v5 identifiers
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/python/v5Worlds.ts
+          if git diff --cached --quiet; then
+            echo "Duplicate identifiers are already corrected."
+            exit 0
+          fi
+          git commit -m "Fix generated NEXUS v5 task identifiers"
+          git push origin HEAD:main
