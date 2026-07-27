@@ -42,7 +42,7 @@ PY
 patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51-filtered.patch > /tmp/patch.log
 
 echo "[v5.1] Verify merged overlay"
-cat .v51-overlay/part-* > /tmp/nexus-v51-overlay.tar.xz.b64
+cat .v51-overlay-v2/part-* > /tmp/nexus-v51-overlay.tar.xz.b64
 echo "d913eb0ca9aafc7219dfa9bba00300b9c4da200989dd3ac8a68bd956e5e174ef  /tmp/nexus-v51-overlay.tar.xz.b64" | sha256sum -c -
 base64 --decode /tmp/nexus-v51-overlay.tar.xz.b64 > /tmp/nexus-v51-overlay.tar.xz
 echo "99710ffc1a535de5a4af493bdd911231d4933876b9ee77429e14e321f15d533f  /tmp/nexus-v51-overlay.tar.xz" | sha256sum -c -
@@ -56,7 +56,7 @@ echo "[v5.1] Validate curriculum"
 npm run validate:content
 
 echo "[v5.1] Commit source"
-rm -rf .v51-payload .v51-overlay
+rm -rf .v51-payload .v51-overlay .v51-overlay-v2
 rm -f .github/workflows/apply-v51-release.yml scripts/apply-v51-release.sh
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
