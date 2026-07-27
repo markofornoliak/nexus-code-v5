@@ -1,6 +1,6 @@
 {
   "name": "nexus-code-v5",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "private": true,
   "type": "module",
   "description": "NEXUS CODE v5 \u2014 a local-first spatial programming observatory.",

@@ -1,14 +1,14 @@
-# NEXUS CODE v5
+# NEXUS CODE v5.1
 
 [![NEXUS quality gate](https://github.com/markofornoliak/nexus-code-v5/actions/workflows/ci.yml/badge.svg)](https://github.com/markofornoliak/nexus-code-v5/actions/workflows/ci.yml)
 
-NEXUS CODE v5 is a browser-native, local-first programming education platform built as a living code observatory. It keeps the v4 spatial archive metaphor and turns it into a clearer learning product: tracks, worlds, lessons, projects, a searchable Atlas, a visual laboratory, runtime-backed practice, and exportable progress without a required backend.
+NEXUS CODE v5.1 is a browser-native, local-first programming education platform built as a living code observatory. It turns five programming languages into connected constellations of tracks, worlds, lessons, projects, a searchable Atlas, a visual laboratory, runtime-backed practice, and exportable progress without a required backend.
 
-## What changed in v5
+## What changed in v5.1
 
-v5 expands the curriculum to 24 worlds and 126 lessons, adds a dedicated project forge with five capstone-style projects, introduces optional onboarding, migrates storage to schema version 6, and splits the previous monolithic stylesheet into token, base, component, page, and legacy compatibility layers.
+v5.1 expands the curriculum to 29 worlds and 141 lessons, grows the project forge to eight milestone-based systems, and introduces a substantially stronger interface layer for the landing page, track network, project dossiers, responsive states, and mastery presentation. Existing v4/v5 IDs and local progress remain compatible.
 
-The release preserves existing v4 IDs and progress. Python still runs through Pyodide in a Web Worker, JavaScript still runs in an isolated worker, HTML/CSS still renders in a sandboxed iframe, and Java/C++ lessons remain honest structural validation tasks rather than fake browser compilation.
+The release preserves all previously published IDs and progress. Python still runs through Pyodide in a Web Worker, JavaScript still runs in an isolated worker, HTML/CSS still renders in a sandboxed iframe, and Java/C++ lessons remain honest structural validation tasks rather than fake browser compilation.
 
 ## Requirements
 
@@ -39,9 +39,9 @@ VITE_BASE_PATH=/nexus-code-v5/ npm run build
 
 ## Application areas
 
-- Landing dashboard for new and returning learners
+- Landing observatory for new and returning learners
 - Optional onboarding calibration at `#/onboarding`
-- Track overview at `#/tracks`
+- Track constellation overview at `#/tracks`
 - Curriculum Atlas at `#/atlas`
 - Lesson workspace at `#/learn/:trackId/:lessonId`
 - Project forge at `#/projects`
@@ -54,9 +54,9 @@ NEXUS CODE is static-hosting compatible. User progress, preferences, drafts, boo
 
 ## Deployment
 
-The permanent GitHub Actions workflows validate every release and build the application for `/nexus-code-v5/`. Before the first Pages deployment, select **GitHub Actions** once in **Settings → Pages → Build and deployment → Source**. After activation, the deployment workflow publishes to `https://markofornoliak.github.io/nexus-code-v5/`.
+The permanent GitHub Actions workflows validate every release and build the application for `/nexus-code-v5/`. GitHub Pages publishes to `https://markofornoliak.github.io/nexus-code-v5/`, followed by a live HTML, JavaScript, and CSS smoke check.
 
-See `docs/GITHUB_PUBLISHING.md` for the exact activation, deployment, and troubleshooting procedure.
+See `docs/GITHUB_PUBLISHING.md` for deployment and troubleshooting procedures.
 
 ## Documentation
 

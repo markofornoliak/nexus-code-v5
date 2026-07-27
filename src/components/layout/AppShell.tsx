@@ -197,7 +197,7 @@ export function AppShell({ children }: PropsWithChildren) {
       {children}
       <footer className="site-footer">
         <Logo compact />
-        <p>NEXUS CODE v5 / Living Code Observatory / Local-first learning system</p>
+        <p>NEXUS CODE v5.1 / Living Code Observatory / Systems learning network</p>
         <p>Built for keyboard, touch, and curious minds.</p>
       </footer>
     </div>

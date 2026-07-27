@@ -2,6 +2,7 @@ import { appendCurriculumWorld, createCurriculumTrack } from "../_shared/defineL
 import { patternBonus, patternTask } from "../_shared/taskBuilders";
 import { javaV4World } from "../v4/javaWorld";
 import { javaV5World } from "./v5World";
+import { javaDomainWorld } from "./domainWorld";
 
 const javaTask = (
   id: string,
@@ -389,6 +390,6 @@ const baseTrack = createCurriculumTrack({
 });
 
 export const track = appendCurriculumWorld(
-  appendCurriculumWorld(baseTrack, javaV4World),
-  javaV5World,
+  appendCurriculumWorld(appendCurriculumWorld(baseTrack, javaV4World), javaV5World),
+  javaDomainWorld,
 );

@@ -2,8 +2,8 @@ import { lessonCatalog, searchLessonCatalog } from "./catalogSearch";
 
 describe("lesson catalog search", () => {
   it("indexes every lesson across all five tracks", () => {
-    expect(lessonCatalog).toHaveLength(126);
-    expect(new Set(lessonCatalog.map((entry) => entry.id)).size).toBe(126);
+    expect(lessonCatalog).toHaveLength(141);
+    expect(new Set(lessonCatalog.map((entry) => entry.id)).size).toBe(141);
   });
 
   it("ranks lesson titles and concept text without case sensitivity", () => {
