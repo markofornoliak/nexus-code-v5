@@ -1,0 +1,117 @@
+name: Bootstrap NEXUS CODE v5
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".nexus-bootstrap/**"
+      - ".github/workflows/bootstrap-v5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nexus-v5-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout bootstrap repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and verify release patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+          import hashlib
+
+          expected_chunks = [
+              "918ff15de85fd67054b30361d4892500f84f7df84f4e7bf6a8f1baaf13e7280f",
+              "a424caf4789747da3843995a59b8ec05733ad0397d1fcc58d886f7746f3bc777",
+              "9931089e6e68521ae6c43047a880999dd8d47bf15e190cbe49d12309a823e694",
+              "0898c60e37f82098ab61ab8fafe7fcecc8cd4636af472bc1025a80509a02f06f",
+              "f7e793c9532b29244d1aef88ca50a0e10de62429a67f11dc62ef2e8c4eb67c68",
+              "51bd7f762f02e34a27c785dd4d8747da1c27cba16ad7d8ad2aeaaaf0886a971e",
+              "ce6bd012d5812c918065590f536259c5f680acb414bd61a59e2416dde4ed0f99",
+              "eca7b2a376df261ec93fa2a12602388236656f9a7e34711b6f9b90ac081e3f43",
+              "7c4b233a04cfa4949d134db157bf233ef05ab0bd30be9faa609fcfc0c2ca101e",
+              "68a7a43189e00b2cca55f0a15df6961c7b3287ea07912a7debf167228507fae5",
+              "c961db49027c45806e89d63b17148fd8c9e5e4645c9b803bc1afbe0a196f02f9",
+              "fb523ab493d712f21f2fd48897c2c0744364663e9f4458942926dd4f6c17dfb3",
+          ]
+
+          candidates = {}
+          for path in Path(".").rglob("*"):
+              if not path.is_file() or ".git" in path.parts:
+                  continue
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              candidates.setdefault(digest, []).append(path)
+
+          chunks = []
+          for digest in expected_chunks:
+              matches = sorted(candidates.get(digest, []), key=lambda p: str(p))
+              if not matches:
+                  raise SystemExit(f"Missing verified patch chunk: {digest}")
+              print(f"Using {matches[0]} for {digest}")
+              chunks.append(matches[0].read_bytes())
+
+          encoded = b"".join(chunks)
+          encoded_digest = hashlib.sha256(encoded).hexdigest()
+          if encoded_digest != "80e16bd68fbaddbccded5bffbe14b66b5df0f7f1f4d6f7b15893d7ab1c70393b":
+              raise SystemExit(f"Encoded patch checksum mismatch: {encoded_digest}")
+
+          compressed = base64.b85decode(encoded)
+          compressed_digest = hashlib.sha256(compressed).hexdigest()
+          if compressed_digest != "ea51e78f1308dcba732a75c79df43f7c63a61b66e49282ad38e8269c3cc4d21d":
+              raise SystemExit(f"Compressed patch checksum mismatch: {compressed_digest}")
+
+          Path("/tmp/nexus-v5.patch.xz").write_bytes(compressed)
+          print("Verified NEXUS CODE v5 patch payload.")
+          PY
+
+      - name: Reconstruct exact v5 source tree
+        shell: bash
+        run: |
+          git clone https://github.com/markofornoliak/nexus-code-v4.git /tmp/nexus-v4
+          cd /tmp/nexus-v4
+          git checkout 04d51850d2d854d543567ed8cf0db13f0d383f5d
+          xz -dc /tmp/nexus-v5.patch.xz > /tmp/nexus-v5.patch
+          git apply --binary --index /tmp/nexus-v5.patch
+
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          root = Path(".")
+          files = [p for p in root.rglob("*") if p.is_file() and ".git" not in p.parts]
+          digest = hashlib.sha256()
+          for path in sorted(files, key=lambda p: str(p)):
+              data = path.read_bytes()
+              digest.update(str(path).encode() + b"\0" + hashlib.sha256(data).digest() + b"\n")
+
+          actual = digest.hexdigest()
+          expected = "c1394efbda843901b6276fd20c659ec84d183271df804a58fd4d3b547996f4fc"
+          print(f"Verified files: {len(files)}")
+          print(f"Tree digest: {actual}")
+          if len(files) != 176 or actual != expected:
+              raise SystemExit("Reconstructed source tree does not match the verified v5 release.")
+          PY
+
+      - name: Publish verified v5 source tree
+        shell: bash
+        run: |
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          rsync -a --exclude=.git /tmp/nexus-v4/ ./
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release NEXUS CODE v5"
+          git push origin HEAD:main
