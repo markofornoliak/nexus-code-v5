@@ -104,18 +104,22 @@ jobs:
               raise SystemExit("Reconstructed source tree does not match the verified v5 release.")
           PY
 
-      - name: Publish verified v5 source tree
+      - name: Publish verified source without workflow mutation
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cp .github/workflows/bootstrap-v5.yml /tmp/bootstrap-v5.yml
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           rsync -a --exclude=.git /tmp/nexus-v4/ ./
+          rm -rf .github/workflows
+          mkdir -p .github/workflows
+          cp /tmp/bootstrap-v5.yml .github/workflows/bootstrap-v5.yml
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Release NEXUS CODE v5"
+          git commit -m "Release NEXUS CODE v5 source"
 
           set +e
           output=$(git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main 2>&1)
@@ -124,7 +128,7 @@ jobs:
           printf '%s\n' "$output"
 
           if [ "$status" -ne 0 ]; then
-            body=$(printf 'Bootstrap push failed:\n```text\n%s\n```' "$output" | jq -Rs '{body: .}')
+            body=$(printf 'Bootstrap source push failed:\n```text\n%s\n```' "$output" | jq -Rs '{body: .}')
             curl -fsSL -X POST \
               -H "Authorization: Bearer ${GH_TOKEN}" \
               -H "Accept: application/vnd.github+json" \
