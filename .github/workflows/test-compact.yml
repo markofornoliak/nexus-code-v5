@@ -11,10 +11,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Run tests with compact output
+      - name: Print only failing tests
         shell: bash
         run: |
           git clone --depth 1 --branch main https://github.com/markofornoliak/nexus-code-v5.git app >/dev/null 2>&1
           cd app
           npm ci --silent >/dev/null 2>&1
-          npx vitest run --reporter=verbose
+          set +e
+          npx vitest run --reporter=json --outputFile=vitest-results.json >/dev/null 2>&1
+          status=$?
+          set -e
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path('vitest-results.json').read_text())
+          failures = []
+          for suite in report.get('testResults', []):
+              for assertion in suite.get('assertionResults', []):
+                  if assertion.get('status') != 'failed':
+                      continue
+                  name = ' > '.join([*assertion.get('ancestorTitles', []), assertion.get('title', '')])
+                  failures.append((suite.get('name', ''), name, assertion.get('failureMessages', [])))
+          print(f"total={report.get('numTotalTests')} passed={report.get('numPassedTests')} failed={report.get('numFailedTests')}")
+          for file_name, name, messages in failures:
+              print(f"FAIL {file_name} :: {name}")
+              for message in messages:
+                  print(message)
+          if failures:
+              raise SystemExit(1)
+          PY
+          exit "$status"
