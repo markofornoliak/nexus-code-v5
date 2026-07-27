@@ -40,7 +40,7 @@ export const cppPerformanceWorld: CurriculumWorldSpec = {
   description:
     "Design native systems around predictable memory access, explicit failure paths, and profiling evidence instead of premature micro-optimizations.",
   landmark: "The Latency Observatory",
-  accent: "coral",
+  accent: "amber",
   lessons: [
     {
       id: "cpp-cache-aware-data",
