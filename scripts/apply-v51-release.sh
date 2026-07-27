@@ -42,8 +42,13 @@ PY
 patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51-filtered.patch > /tmp/patch.log
 
 echo "[v5.1] Verify merged overlay"
+wc -c .v51-overlay-v2/part-*
+sha256sum .v51-overlay-v2/part-*
 cat .v51-overlay-v2/part-* > /tmp/nexus-v51-overlay.tar.xz.b64
-echo "d913eb0ca9aafc7219dfa9bba00300b9c4da200989dd3ac8a68bd956e5e174ef  /tmp/nexus-v51-overlay.tar.xz.b64" | sha256sum -c -
+actual_overlay="$(sha256sum /tmp/nexus-v51-overlay.tar.xz.b64 | cut -d ' ' -f 1)"
+echo "[v5.1] Overlay bytes: $(wc -c < /tmp/nexus-v51-overlay.tar.xz.b64)"
+echo "[v5.1] Overlay SHA-256: ${actual_overlay}"
+test "${actual_overlay}" = "d913eb0ca9aafc7219dfa9bba00300b9c4da200989dd3ac8a68bd956e5e174ef"
 base64 --decode /tmp/nexus-v51-overlay.tar.xz.b64 > /tmp/nexus-v51-overlay.tar.xz
 echo "99710ffc1a535de5a4af493bdd911231d4933876b9ee77429e14e321f15d533f  /tmp/nexus-v51-overlay.tar.xz" | sha256sum -c -
 tar -xJf /tmp/nexus-v51-overlay.tar.xz -C .
