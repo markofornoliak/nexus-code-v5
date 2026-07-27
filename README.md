@@ -1,5 +1,7 @@
 # NEXUS CODE v5
 
+[![NEXUS quality gate](https://github.com/markofornoliak/nexus-code-v5/actions/workflows/ci.yml/badge.svg)](https://github.com/markofornoliak/nexus-code-v5/actions/workflows/ci.yml)
+
 NEXUS CODE v5 is a browser-native, local-first programming education platform built as a living code observatory. It keeps the v4 spatial archive metaphor and turns it into a clearer learning product: tracks, worlds, lessons, projects, a searchable Atlas, a visual laboratory, runtime-backed practice, and exportable progress without a required backend.
 
 ## What changed in v5
@@ -49,6 +51,12 @@ VITE_BASE_PATH=/nexus-code-v5/ npm run build
 ## Runtime model
 
 NEXUS CODE is static-hosting compatible. User progress, preferences, drafts, bookmarks, and project milestone state are stored locally. Python runtime assets may require a first network load depending on Pyodide cache state. Java and C++ source exercises validate structure and required patterns; learners must use a native JDK or C++ toolchain for real compilation outside the browser.
+
+## Deployment
+
+The permanent GitHub Actions workflows validate every release and build the application for `/nexus-code-v5/`. Before the first Pages deployment, select **GitHub Actions** once in **Settings → Pages → Build and deployment → Source**. After activation, the deployment workflow publishes to `https://markofornoliak.github.io/nexus-code-v5/`.
+
+See `docs/GITHUB_PUBLISHING.md` for the exact activation, deployment, and troubleshooting procedure.
 
 ## Documentation
 
