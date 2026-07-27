@@ -18,8 +18,11 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import hashlib
-          for path in sorted(Path('payload/.nexus-bootstrap').glob('*')):
-              if path.is_file():
-                  data = path.read_bytes()
-                  print(f'{path.name}|{len(data)}|{hashlib.sha256(data).hexdigest()}')
+          root = Path('payload')
+          for path in sorted(root.rglob('*')):
+              if not path.is_file() or '.git' in path.parts:
+                  continue
+              data = path.read_bytes()
+              if len(data) >= 1000:
+                  print(f'{path.relative_to(root)}|{len(data)}|{hashlib.sha256(data).hexdigest()}')
           PY
