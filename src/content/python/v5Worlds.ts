@@ -221,7 +221,7 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
           ],
         },
         {
-          id: "python-dataclasses-method",
+          id: "python-dataclasses-v5-method",
           title: "Add a record method",
           description: "Add a label method to Sensor that returns north/ready.",
           expectedBehavior: "Print north/ready.",
@@ -236,7 +236,7 @@ export const pythonTypecraftWorld: CurriculumWorldSpec = {
         },
       ],
       bonus: {
-        id: "python-dataclasses-bonus",
+        id: "python-dataclasses-v5-bonus",
         title: "Sort recovered nodes",
         description:
           "Create Node records from three pairs and print their names ordered by energy descending.",
