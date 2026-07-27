@@ -16,40 +16,33 @@ jobs:
     if: github.head_ref == 'design-content-v51'
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Checkout release branch
-        uses: actions/checkout@v6
-        with:
-          ref: design-content-v51
-          fetch-depth: 0
-
-      - name: Reconstruct and verify release patch
+      - name: Apply verified release payload
         shell: bash
         run: |
           set -euo pipefail
+          gh auth setup-git
+          git clone --quiet --branch design-content-v51 "https://github.com/${GITHUB_REPOSITORY}.git" release
+          cd release
+
           cat .v51-payload/part-* > /tmp/nexus-v51.patch.xz.b64
           echo "db42e7e19e12d155b2a12ccb67b30266d789b54d1e5ec7ac05738d227bf2ed33  /tmp/nexus-v51.patch.xz.b64" | sha256sum -c -
           base64 --decode /tmp/nexus-v51.patch.xz.b64 > /tmp/nexus-v51.patch.xz
           echo "93d171ab35385c3e653a9d4339815a759e78b217a760b3dbdf5146b4e1dea896  /tmp/nexus-v51.patch.xz" | sha256sum -c -
           xz -dc /tmp/nexus-v51.patch.xz > /tmp/nexus-v51.patch
+
           if ! patch --batch --forward --fuzz=3 -p2 < /tmp/nexus-v51.patch > /tmp/patch.log 2>&1; then
-            echo "Patch application failed. Compact diagnostics:"
-            tail -n 120 /tmp/patch.log
+            echo "Patch application failed:"
+            cat /tmp/patch.log
             exit 1
           fi
 
-      - name: Install, format, and validate
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm ci
+          npm ci --silent
           npm run format
           npm run validate:content
 
-      - name: Commit NEXUS CODE v5.1 source
-        shell: bash
-        run: |
-          set -euo pipefail
           rm -rf .v51-payload
           rm -f .github/workflows/apply-v51-release.yml
           git config user.name "github-actions[bot]"
