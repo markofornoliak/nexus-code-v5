@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened]
 
 permissions:
+  actions: read
   contents: read
 
 concurrency:
@@ -15,47 +16,72 @@ jobs:
   verify-live:
     if: github.head_ref == 'verify-v51-live'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SITE_URL: https://markofornoliak.github.io/nexus-code-v5/
+      SITE_ORIGIN: https://markofornoliak.github.io
     steps:
-      - name: Inventory published v5.1 shell and assets
+      - name: Inspect Pages deployment and verify all Vite chunks
         shell: bash
-        env:
-          SITE_URL: https://markofornoliak.github.io/nexus-code-v5/
-          SITE_ORIGIN: https://markofornoliak.github.io
         run: |
           set -euo pipefail
+
+          echo "Recent Pages workflow runs:"
+          gh api --method GET "repos/${GITHUB_REPOSITORY}/actions/workflows/deploy.yml/runs?branch=main&per_page=5" \
+            --jq '.workflow_runs[] | [.id, .status, (.conclusion // "pending"), .head_sha, .html_url] | @tsv'
+
           html="$(mktemp)"
-          script="$(mktemp)"
           style="$(mktemp)"
+          asset_dir="$(mktemp -d)"
 
-          curl --fail --silent --show-error --location --output "$html" "$SITE_URL"
-          script_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
-          style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
-          test -n "$script_path"
-          test -n "$style_path"
+          for attempt in $(seq 1 18); do
+            rm -rf "${asset_dir:?}"/*
+            curl --fail --silent --show-error --location --output "$html" "$SITE_URL"
 
-          curl --fail --silent --show-error --location --output "$script" "${SITE_ORIGIN}${script_path}"
-          curl --fail --silent --show-error --location --output "$style" "${SITE_ORIGIN}${style_path}"
+            entry_path="$(grep -oE 'src="[^"]+\.js"' "$html" | head -n 1 | cut -d '"' -f 2)"
+            style_path="$(grep -oE 'href="[^"]+\.css"' "$html" | head -n 1 | cut -d '"' -f 2)"
+            test -n "$entry_path"
+            test -n "$style_path"
 
-          echo "JavaScript asset: ${script_path} ($(wc -c < "$script") bytes)"
-          echo "CSS asset: ${style_path} ($(wc -c < "$style") bytes)"
-          echo "JavaScript SHA-256: $(sha256sum "$script" | cut -d ' ' -f 1)"
-          echo "CSS SHA-256: $(sha256sum "$style" | cut -d ' ' -f 1)"
+            printf '%s\n' "$entry_path" > "$asset_dir/queue"
+            : > "$asset_dir/fetched"
+            : > "$asset_dir/all.js"
 
-          for marker in '5.1.0' 'Build software that behaves like a system.' 'Production Automation' 'Open curriculum map'; do
-            if grep -Fq "$marker" "$script"; then
-              echo "JS marker present: $marker"
-            else
-              echo "JS marker absent: $marker"
+            for round in $(seq 1 5); do
+              : > "$asset_dir/next"
+              while IFS= read -r path; do
+                [ -n "$path" ] || continue
+                grep -Fxq "$path" "$asset_dir/fetched" && continue
+                printf '%s\n' "$path" >> "$asset_dir/fetched"
+                file="$asset_dir/$(printf '%s' "$path" | sha256sum | cut -d ' ' -f 1).js"
+                curl --fail --silent --show-error --location --output "$file" "${SITE_ORIGIN}${path}"
+                cat "$file" >> "$asset_dir/all.js"
+                grep -oE 'assets/[A-Za-z0-9._-]+\.js' "$file" | sort -u | sed 's#^#/nexus-code-v5/#' >> "$asset_dir/next" || true
+              done < "$asset_dir/queue"
+              sort -u "$asset_dir/next" > "$asset_dir/queue"
+              [ -s "$asset_dir/queue" ] || break
+            done
+
+            curl --fail --silent --show-error --location --output "$style" "${SITE_ORIGIN}${style_path}"
+
+            if grep -Fq 'Open curriculum map' "$asset_dir/all.js" \
+              && grep -Fq 'Production Automation' "$asset_dir/all.js" \
+              && grep -Fq 'Build software that behaves like a system.' "$asset_dir/all.js" \
+              && grep -Fq '.v51-landing' "$style" \
+              && grep -Fq '.v51-track-page' "$style"; then
+              echo "Live NEXUS CODE v5.1 verification passed."
+              echo "Entry asset: ${entry_path}"
+              echo "CSS asset: ${style_path}"
+              echo "JavaScript chunks checked: $(wc -l < "$asset_dir/fetched")"
+              echo "Combined JavaScript SHA-256: $(sha256sum "$asset_dir/all.js" | cut -d ' ' -f 1)"
+              echo "CSS SHA-256: $(sha256sum "$style" | cut -d ' ' -f 1)"
+              exit 0
             fi
+
+            echo "Published assets do not yet expose every v5.1 marker (${attempt}/18)."
+            sleep 10
           done
 
-          for marker in '.v51-landing' '.v51-track-page' '.v51-projects-page' '--v51-panel'; do
-            if grep -Fq -- "$marker" "$style"; then
-              echo "CSS marker present: $marker"
-            else
-              echo "CSS marker absent: $marker"
-            fi
-          done
-
-          echo "Asset inventory completed."
+          echo "The public site did not expose the complete v5.1 asset graph within the verification window."
+          exit 1
